@@ -25,7 +25,7 @@ if [ "$(realpath /dev/disk/by-label/pmOS_install)" != "$part_install" ]; then
 fi
 
 # HACK: avoid crashing without chcon
-# https://github.com/calamares/calamares/blob/5e79176f47833fbf44b7f4a2499ad8807ea39284/src/modules/mount/main.py#L52-L56
+# https://github.com/calamares/calamares/issues/1429
 if ! [ -e /bin/chcon ]; then
 	ln -s /bin/true /bin/chcon
 fi
