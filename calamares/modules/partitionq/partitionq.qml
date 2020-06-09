@@ -96,9 +96,11 @@ Page
                 passwordError.visible = true;
 
                 if (luksPass.text !== luksPassRepeat.text) {
-                    passwordError.text = qsTr("Passwords do not match");
+                    passwordError.text = qsTr("The passwords do not match");
                 } else if (luksPass.text.length < 5) {
-                    passwordError.text = qsTr("Password too short");
+                    passwordError.text = qsTr("The password is too short, 5" +
+                                              " or more characters are" +
+                                              " required.");
                 } else {
                     luksPassContinue.text = qsTr("Please wait...")
                     luksPassContinue.enabled = false
