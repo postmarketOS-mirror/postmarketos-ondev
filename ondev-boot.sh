@@ -50,9 +50,11 @@ workspace_layout tabbed
 exec calamares
 EOF
 
-# Set ONDEV_PARTITION_TARGET for calamares (used by partitionq)
+# Set environment variables
 cat << EOF > /root/.profile
-export ONDEV_PARTITION_TARGET="$part_target" 
+# Used by partitionq in calamares
+export ONDEV_PARTITION_TARGET="$part_target"  # used by "partitionq"
+export QT_IM_MODULE="qtvirtualkeyboard"
 EOF
 
 # DEBUG: add user for ssh (password: 'y')
