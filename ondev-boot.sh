@@ -31,7 +31,7 @@ if ! [ -e /bin/chcon ]; then
 fi
 
 # Calamares module "unpackfs" needs loop
-modprobe loop
+modprobe loop || true
 
 # Configure lightdm to start i3
 mkdir -p /usr/share/lightdm/lightdm.conf.d
