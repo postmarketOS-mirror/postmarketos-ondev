@@ -7,6 +7,9 @@
 # code:
 # * store the channel properties somewhere to display them
 # * transform rootfs.img
+# * patch configs (e.g. /etc/fstab)
+#   NOTE: we don't do this in .post-install, because then it would alter the
+#   configs, even if a user installed postmarketos-ondev by accident.
 
 if [ "$#" -ne 5 ]; then
 	echo "ERROR: do not run this script manually."
@@ -22,5 +25,6 @@ channel_mirrordir_alpine="$5"
 
 set -x
 
-# do nothing for now
-exit 0
+# Adjust root partition label in /etc/fstab, so OpenRC can correclty remount it
+# as RW during boot
+sed -i s/pmOS_root/pmOS_install/ /etc/fstab
