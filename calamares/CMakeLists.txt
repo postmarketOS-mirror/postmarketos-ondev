@@ -9,10 +9,8 @@ find_package(Calamares REQUIRED)
 find_package(KF5CoreAddons REQUIRED)
 find_package(Qt5 ${QT_VERSION} REQUIRED Quick QuickWidgets Xml Svg)
 
-set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules" )
+set( CMAKE_MODULE_PATH "/usr/lib/cmake/Calamares" )
 find_package(YAMLCPP REQUIRED)
-
-include("${CALAMARES_USE_FILE}")
 
 # Branding
 calamares_add_branding_subdirectory( branding/postmarketos NAME postmarketos )

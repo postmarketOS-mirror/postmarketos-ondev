@@ -3,9 +3,6 @@
 # This is a re-write of the partition module using QML view steps
 # instead of widgets.
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../../libcalamaresui
-		     ${CMAKE_CURRENT_SOURCE_DIR}/../../libcalamares )
-
 calamares_add_plugin( partitionq
     TYPE viewmodule
     EXPORT_MACRO PLUGINDLLEXPORT_PRO
