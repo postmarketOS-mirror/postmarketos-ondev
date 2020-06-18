@@ -25,7 +25,7 @@ channel_mirrordir_alpine="$5"
 
 set -x
 
-# Adjust root partition label in /etc/fstab, so OpenRC can correclty remount it
+# Adjust root partition label in /etc/fstab, so OpenRC can correctly remount it
 # as RW during boot
 sed -i s/pmOS_root/pmOS_install/ /etc/fstab
 
