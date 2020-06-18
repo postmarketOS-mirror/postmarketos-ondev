@@ -28,3 +28,14 @@ set -x
 # Adjust root partition label in /etc/fstab, so OpenRC can correclty remount it
 # as RW during boot
 sed -i s/pmOS_root/pmOS_install/ /etc/fstab
+
+# Disable device-specific services, that are not useful during the installation
+# eg25: increases shutdown time by 30s (pinephone modem)
+services="
+	eg25
+"
+for service in $services; do
+	if [ -e "/etc/init.d/$service" ]; then
+		rc-update delete "$service" default
+	fi
+done
