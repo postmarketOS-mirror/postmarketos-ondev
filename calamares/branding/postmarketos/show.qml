@@ -31,7 +31,7 @@ Presentation
 
     Timer {
         id: advanceTimer
-        interval: 1000
+        interval: 10000
         running: presentation.activatedInCalamares
         repeat: true
         onTriggered: nextSlide()
@@ -41,31 +41,41 @@ Presentation
 
         Image {
             id: background
-            source: "squid.png"
-            width: 200; height: 200
-            fillMode: Image.PreserveAspectFit
-            anchors.centerIn: parent
+            source: "wallpaper.jpg"
+            fillMode: Image.PreserveAspectCrop
+            anchors.fill: parent
+        }
+        Text {
+            anchors.fill: parent
+            text: "Welcome to postmarketOS!<br/>"+
+                  "We aim to provide a real Linux distribution for phones<br/>"+
+                  "and other mobile devices.<br/>"
+            wrapMode: Text.WordWrap
+            font.pointSize: 24
+            color: "white"
+            horizontalAlignment: Text.Center
+            verticalAlignment: Text.AlignBottom
+            style: Text.Outline
+            styleColor: "black"
+        }
+    }
+
+    Slide {
+        Image {
+            id: background2
+            source: "wallpaper.jpg"
+            fillMode: Image.PreserveAspectCrop
+            anchors.fill: parent
         }
         Text {
             anchors.horizontalCenter: background.horizontalCenter
-            anchors.top: background.bottom
-            text: "This is a customizable QML slideshow.<br/>"+
-                  "Distributions should provide their own slideshow and list it in <br/>"+
-                  "their custom branding.desc file.<br/>"+
-                  "To create a Calamares presentation in QML, import calamares.slideshow,<br/>"+
-                  "define a Presentation element with as many Slide elements as needed."
+            text: "You can run postmarketOS with the environment of your choice<br/>"+
+                  "For example the Plasma Mobile or Phosh mobile environments<br/>"+
+                  "Or classic Gnome or Plasma desktop environments.<br/>"
             wrapMode: Text.WordWrap
             width: presentation.width
             horizontalAlignment: Text.Center
         }
-    }
-
-    Slide {
-        centeredText: qsTr("This is a second Slide element.")
-    }
-
-    Slide {
-        centeredText: qsTr("This is a third Slide element.")
     }
 
     // When this slideshow is loaded as a V1 slideshow, only
