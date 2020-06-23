@@ -56,6 +56,7 @@ cat << EOF > /root/.profile
 # Used by partitionq in calamares
 export ONDEV_PARTITION_TARGET="$part_target"  # used by "partitionq"
 export QT_IM_MODULE="qtvirtualkeyboard"
+export QT_VIRTUALKEYBOARD_STYLE=Plasma
 EOF
 
 # Hardcode 200 DPI (postmarketos-ondev#15: better would be correct device dpi)
