@@ -58,6 +58,11 @@ export ONDEV_PARTITION_TARGET="$part_target"  # used by "partitionq"
 export QT_IM_MODULE="qtvirtualkeyboard"
 EOF
 
+# Hardcode 200 DPI (postmarketos-ondev#15: better would be correct device dpi)
+cat << EOF > /root/.Xresources
+Xft.dpi: 200
+EOF
+
 # DEBUG: add user for ssh (password: 'y')
 # yes | adduser user -G wheel || true
 
