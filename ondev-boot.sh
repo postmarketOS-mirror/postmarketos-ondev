@@ -20,8 +20,14 @@ part_target="$(echo "$part_install" | sed 's/3$/2/')"
 
 # Sanity check
 if [ "$(realpath /dev/disk/by-label/pmOS_install)" != "$part_install" ]; then
-	echo "ERROR: ondev-boot should only be started from the pmOS_install partition!"
-	exit 1
+	if [ -n "$ONDEV_SKIP_LABEL_CHECK" ]; then
+		echo "WARNING: not booting from pmOS_install, but" \
+			"ONDEV_SKIP_LABEL_CHECK is set."
+	else
+		echo "ERROR: ondev-boot should only be started from the" \
+			"pmOS_install partition!"
+		exit 1
+	fi
 fi
 
 # Calamares module "unpackfs" needs loop
