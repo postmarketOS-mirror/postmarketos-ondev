@@ -24,12 +24,6 @@ if [ "$(realpath /dev/disk/by-label/pmOS_install)" != "$part_install" ]; then
 	exit 1
 fi
 
-# HACK: avoid crashing without chcon
-# https://github.com/calamares/calamares/issues/1429
-if ! [ -e /bin/chcon ]; then
-	ln -s /bin/true /bin/chcon
-fi
-
 # Calamares module "unpackfs" needs loop
 modprobe loop || true
 
