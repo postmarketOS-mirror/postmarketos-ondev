@@ -151,18 +151,19 @@ Page
                                                   " required.");
                     } else if (!check_chars(luksPass.text)) {
                         passwordError.text = qsTr("The password must only" +
-                                                  " contain these\n" +
-                                                  "characters, others" +
-                                                  " cannot be typed in at" +
-                                                  " boot:") + "\n\n" +
+                                                  " contain\n" +
+                                                  "these characters, others" +
+                                                  " cannot be\n" +
+                                                  "typed in at boot time:") +
+                                                  "\n\n" +
                                                   allowed_chars_multiline();
                     } else {
                         /* Prepare a wait screen */
                         luksSimpleTopText.text = qsTr("Creating an encrypted" +
                                                       " partition.\n" +
                                                       "This may take up to" +
-                                                      " 30 seconds, please " +
-                                                      " be patient.");
+                                                      " 30 seconds.\n" +
+                                                      "Please be patient.");
                         luksPass.visible = false;
                         luksPassRepeat.visible = false;
                         luksPassContinue.visible = false;
