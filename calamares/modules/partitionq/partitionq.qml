@@ -158,8 +158,6 @@ Page
                                                   allowed_chars_multiline();
                     } else {
                         /* Prepare a wait screen */
-                        luksPassContinue.text = qsTr("Please wait...")
-                        luksPassContinue.enabled = false
                         luksSimpleTopText.text = qsTr("Creating an encrypted" +
                                                       " partition.\n" +
                                                       "This may take up to" +
