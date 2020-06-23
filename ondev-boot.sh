@@ -47,6 +47,7 @@ mkdir -p /root/.config/i3
 cat << EOF > /root/.config/i3/config
 new_window 1pixel
 workspace_layout tabbed
+exec unclutter-xfixes --fork --timeout 1
 exec calamares
 EOF
 
