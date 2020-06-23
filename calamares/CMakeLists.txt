@@ -18,3 +18,4 @@ calamares_add_branding_subdirectory( branding/postmarketos NAME postmarketos )
 # Modules
 include_directories(${CALAMARES_INCLUDE_DIRS})
 calamares_add_module_subdirectory( modules/partitionq )
+calamares_add_module_subdirectory( modules/welcomeq-pmos )
