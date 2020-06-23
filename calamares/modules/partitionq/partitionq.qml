@@ -58,6 +58,10 @@ Page
         return ret.trim();
     }
 
+    Timer {
+        id: timer
+    }
+
     Item {
         id: appContainer
         anchors.left: parent.left
@@ -153,11 +157,26 @@ Page
                                                   " boot:") + "\n\n" +
                                                   allowed_chars_multiline();
                     } else {
+                        /* Prepare a wait screen */
                         luksPassContinue.text = qsTr("Please wait...")
                         luksPassContinue.enabled = false
-                        /* Let PartitionQmlViewStep.cpp::onLeave() create the
-                           encrypted partition and mount it. */
-                        ViewManager.next();
+                        luksSimpleTopText.text = qsTr("Creating an encrypted" +
+                                                      " partition.\n" +
+                                                      "This may take up to" +
+                                                      " 30 seconds, please " +
+                                                      " be patient.");
+                        luksPass.visible = false;
+                        luksPassRepeat.visible = false;
+                        luksPassContinue.visible = false;
+                        inputPanel.visible = false;
+
+                        /* Wait a second (so the screen can render), then let
+                         * PartitionQmlViewStep.cpp::onLeave() create the
+                         * encrypted partition and mount it. */
+                        timer.interval = 1000;
+                        timer.repeat = false;
+                        timer.triggered.connect(ViewManager.next);
+                        timer.start();
                     }
                 }
 
