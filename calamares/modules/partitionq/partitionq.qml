@@ -32,32 +32,6 @@ Page
 {
     id: partition
 
-    /* Only allow characters, that can be typed in with the postmarketOS
-     * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
-     * FIXME: move to config file */
-     property var allowed_chars:
-        /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
-        /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-        /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
-        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]"
-
-    function check_chars(input) {
-        for (var i = 0; i < input.length; i++) {
-            if (allowed_chars.indexOf(input[i]) == -1)
-                return false;
-        }
-        return true;
-    }
-
-    function allowed_chars_multiline() {
-        /* return allowed_chars split across multiple lines */
-        var step = 20;
-        var ret = "";
-        for (var i = 0; i < allowed_chars.length + step; i += step)
-            ret += allowed_chars.slice(i, i + step) + "\n";
-        return ret.trim();
-    }
-
     Timer {
         id: timer
     }
@@ -196,4 +170,31 @@ Page
         anchors.left: parent.left
         anchors.right: parent.right
     }
+
+    /* Only allow characters, that can be typed in with the postmarketOS
+     * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
+     * FIXME: move to config file */
+     property var allowed_chars:
+        /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
+        /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
+        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]"
+
+    function check_chars(input) {
+        for (var i = 0; i < input.length; i++) {
+            if (allowed_chars.indexOf(input[i]) == -1)
+                return false;
+        }
+        return true;
+    }
+
+    function allowed_chars_multiline() {
+        /* return allowed_chars split across multiple lines */
+        var step = 20;
+        var ret = "";
+        for (var i = 0; i < allowed_chars.length + step; i += step)
+            ret += allowed_chars.slice(i, i + step) + "\n";
+        return ret.trim();
+    }
+
 }
