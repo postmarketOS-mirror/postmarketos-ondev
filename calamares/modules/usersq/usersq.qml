@@ -44,6 +44,7 @@ Page
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
+        anchors.bottom: inputPanel.top
         Item {
             width: parent.width
             height: parent.height
