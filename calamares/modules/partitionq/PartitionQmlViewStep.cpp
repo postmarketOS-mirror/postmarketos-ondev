@@ -84,8 +84,8 @@ PartitionQmlViewStep::onLeave()
     const char *mountpoint = "/mnt/install";
     QProcess process;
 
-    cDebug() << "Running: cryptsetup luksFormat" << dev;
-    process.start( "cryptsetup", { "luksFormat", dev } );
+    cDebug() << "Running: cryptsetup luksFormat --use-urandom" << dev;
+    process.start( "cryptsetup", { "luksFormat", "--use-urandom", dev } );
     process.write(pass, qstrlen(pass));
     process.write("\n", 1);
     process.waitForFinished();
