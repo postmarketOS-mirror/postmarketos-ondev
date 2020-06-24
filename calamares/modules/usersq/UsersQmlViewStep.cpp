@@ -18,88 +18,77 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PartitionQmlViewStep.h"
-#include "PartitionJob.h"
-
-#include "GlobalStorage.h"
-#include "JobQueue.h"
-
-#include "locale/LabelModel.h"
-#include "utils/Dirs.h"
-#include "utils/Logger.h"
-#include "utils/Variant.h"
-
-#include "Branding.h"
-#include "modulesystem/ModuleManager.h"
-#include "utils/Yaml.h"
-
+#include "UsersQmlViewStep.h"
+#include "UsersJob.h"
 #include <QProcess>
 
-CALAMARES_PLUGIN_FACTORY_DEFINITION( PartitionQmlViewStepFactory, registerPlugin< PartitionQmlViewStep >(); )
+CALAMARES_PLUGIN_FACTORY_DEFINITION( UsersQmlViewStepFactory, registerPlugin< UsersQmlViewStep >(); )
 
 void
-PartitionQmlViewStep::setConfigurationMap( const QVariantMap& configurationMap )
+UsersQmlViewStep::setConfigurationMap( const QVariantMap& configurationMap )
 {
     m_config->setConfigurationMap( configurationMap );
     Calamares::QmlViewStep::setConfigurationMap( configurationMap );
 }
 
-PartitionQmlViewStep::PartitionQmlViewStep( QObject* parent )
+UsersQmlViewStep::UsersQmlViewStep( QObject* parent )
     : Calamares::QmlViewStep( parent )
     , m_config( new Config( this ) )
 {
 }
 
 void
-PartitionQmlViewStep::onLeave()
+UsersQmlViewStep::onLeave()
 {
     m_jobs.clear();
-    Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
-                                          m_config->password() );
+    Calamares::Job *j = new UsersJob( m_config->password(),
+                                      m_config->isSshEnabled(),
+                                      m_config->sshUsername(),
+                                      m_config->sshPassword() );
     m_jobs.append( Calamares::job_ptr( j ) );
 }
 
 QString
-PartitionQmlViewStep::prettyName() const
+UsersQmlViewStep::prettyName() const
 {
-    return tr( "Partition" );
+    return tr( "Users" );
 }
 
 bool
-PartitionQmlViewStep::isNextEnabled() const
-{
-    return false;
-}
-
-bool
-PartitionQmlViewStep::isBackEnabled() const
+UsersQmlViewStep::isNextEnabled() const
 {
     return false;
 }
 
+bool
+UsersQmlViewStep::isBackEnabled() const
+{
+    return false;
+}
+
 
 bool
-PartitionQmlViewStep::isAtBeginning() const
+UsersQmlViewStep::isAtBeginning() const
 {
     return true;
 }
 
 
 bool
-PartitionQmlViewStep::isAtEnd() const
+UsersQmlViewStep::isAtEnd() const
 {
     return true;
 }
 
 
 Calamares::JobList
-PartitionQmlViewStep::jobs() const
+UsersQmlViewStep::jobs() const
 {
     return m_jobs;
 }
 
 QObject*
-PartitionQmlViewStep::getConfig()
+UsersQmlViewStep::getConfig()
 {
     return m_config;
 }

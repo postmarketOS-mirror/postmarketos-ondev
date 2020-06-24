@@ -94,16 +94,6 @@ navigation: none
 strings:
     productName:         "postmarketOS"
     shortProductName:    postmarketOS
-    version:             2020.2 LTS
-    shortVersion:        2020.2
-    versionedName:       Fancy GNU/Linux 2020.2 LTS "Turgid Tuba"
-    shortVersionedName:  FancyGL 2020.2
-    bootloaderEntryName: FancyGL
-    productUrl:          https://postmarketos.org
-    supportUrl:          https://github.com/calamares/calamares/issues
-    knownIssuesUrl:      https://calamares.io/about/
-    releaseNotesUrl:     https://calamares.io/about/
-    donateUrl:           https://kde.org/community/donations/index.php
 
 # These images are loaded from the branding module directory.
 #
@@ -134,10 +124,10 @@ strings:
 # These filenames can also use substitutions from os-release (see above).
 images:
     # productBanner:       "banner.png"
-    productIcon:         "squid.png"
-    productLogo:         "squid.png"
+    productIcon:         "postmarketos3d.png"
+    productLogo:         "postmarketos3d.png"
     # productWallpaper:    "wallpaper.png"
-    productWelcome:      "languages.png"
+    productWelcome:      "postmarketos3d.png"
 
 # The slideshow is displayed during execution steps (e.g. when the
 # installer is actually writing to disk and doing other slow things).

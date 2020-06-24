@@ -44,7 +44,7 @@ Page
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 anchors.topMargin: 100
-                width: 300
+                width: 500
                 fillMode: Image.PreserveAspectFit
                 source: "img/postmarketos3d.png"
             }
@@ -52,34 +52,51 @@ Page
                 id: welcomeText
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: logo.bottom
-                anchors.topMargin: 30
+                anchors.topMargin: 150
                 horizontalAlignment: Text.AlignRight
                 text: "You are about to install<br>" +
                       "postmarketOS " +
                       "<b>" + config.version + "</b><br>" +
                       "user interface " +
-                      "<b>" + config.userInterface + "</b><br>" +
+                      "<b>" + pretty_ui(config.userInterface) + "</b><br>" +
                       "architecture " +
                       "<b>" + config.arch + "</b><br>" +
                       "on your " +
                       "<b>" + config.device + "</b><br>"
-                width: Math.min(parent.width / 1.5, 300)
+                width: 500
             }
 
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: welcomeText.bottom
-                anchors.topMargin: 40
-                width: Math.min(parent.width / 1.5, 300)
+                anchors.topMargin: 150
+                width: 500
 
                 text: qsTr("Continue")
                 onClicked: ViewManager.next()
             }
-
-            Loader {
-                id:load
-                anchors.fill: parent
-            }
         }
+    }
+    function pretty_ui(name) {
+        /* Translate the UI value from "pmbootstrap config ui", which is the
+         * suffix of the postmarketos-ui-* pkgnames, to the pretty name. This
+         * defaults to just displaying the original name, if we don't have a
+         * pretty name specified in the map below. */
+        var map = {
+            "fbkeyboard": "fbkeyboard",
+            "gnome": "GNOME",
+            "i3wm": "i3",
+            "kodi": "Kodi",
+            "mate": "MATE",
+            "phosh": "Phosh",
+            "plasma-desktop": "Plasma Desktop",
+            "plasma-mobile": "Plasma Mobile",
+            "plasma-mobile-extra": "Plasma Mobile",
+            "shelli": "Shelli",
+            "sway": "Sway",
+            "weston": "Weston",
+            "xfce4": "Xfce 4",
+        }
+        return map[name] ? map[name] : name;
     }
 }

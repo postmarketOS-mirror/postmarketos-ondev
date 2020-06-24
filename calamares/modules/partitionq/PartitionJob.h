@@ -1,7 +1,6 @@
 /* === This file is part of Calamares - <https://github.com/calamares> ===
  *
- *   Copyright 2015, Teo Mrnjavac <teo@kde.org>
- *   Copyright 2018, Adriaan de Groot <groot@kde.org>
+ *   Copyright 2020, Oliver Smith <ollieparanoid@postmarketos.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -17,20 +16,22 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0;
-import calamares.slideshow 1.0;
+#pragma once
+#include "Job.h"
 
-Presentation
+
+class PartitionJob : public Calamares::Job
 {
-    id: presentation
+    Q_OBJECT
+public:
+    PartitionJob( bool isFdeEnabled, const QString& password );
 
-    Slide {
-        Image {
-            id: background
-            source: "postmarketos3d.png"
-            width: 500
-            fillMode: Image.PreserveAspectFit
-            anchors.centerIn: parent
-        }
-    }
-}
+    QString prettyName() const override;
+    Calamares::JobResult exec() override;
+
+    Calamares::JobList createJobs();
+
+private:
+    bool m_isFdeEnabled;
+    QString m_password;
+};

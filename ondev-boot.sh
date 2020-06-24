@@ -64,6 +64,25 @@ cat << EOF > /root/.Xresources
 Xft.dpi: 200
 EOF
 
+# Write partial sshd_config, that will be appended to /mnt/install/etc/ssh/
+# sshd_config by the shellprocess job (see shellprocess.cfg).
+mkdir -p /usr/share/postmarketos-ondev
+cat << EOF > /usr/share/postmarketos-ondev/sshd_config
+
+# This installation of postmarketOS was done with the on-device installer. The
+# user "user" only has a weak, numeric password, which is needed for the lock-
+# screens of Phosh and Plasma Mobile. This weak password is not suitable for
+# logging in via SSH, therefore disable password authentication below.
+# During the installation, we have asked if a dedicated SSH user should be
+# added to the system, with a strong password and freely chosen username.
+# Password authentication is not disabled for this user, however we strongly
+# encourage you to set up an SSH key and disable password authentication for
+# that SSH user as well: https://postmarketos.org/ssh
+Match User user
+    PasswordAuthentication no
+Match all
+EOF
+
 # DEBUG: add user for ssh (password: 'y')
 # yes | adduser user -G wheel || true
 

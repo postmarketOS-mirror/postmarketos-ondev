@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+  <file>usersq.qml</file>
+  <file>default_pin.qml</file> <!-- default user: pin -->
+  <file>ssh_confirm.qml</file> <!-- ssh user: enable or not? -->
+  <file>ssh_credentials.qml</file> <!-- ssh user: username, password -->
+</qresource>
+</RCC>

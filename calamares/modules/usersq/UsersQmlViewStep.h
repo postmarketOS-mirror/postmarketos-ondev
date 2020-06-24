@@ -17,8 +17,7 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PARTITION_QMLVIEWSTEP_H
-#define PARTITION_QMLVIEWSTEP_H
+#pragma once
 #include "Config.h"
 
 #include "utils/PluginFactory.h"
@@ -29,12 +28,12 @@
 #include <QObject>
 #include <QVariantMap>
 
-class PLUGINDLLEXPORT PartitionQmlViewStep : public Calamares::QmlViewStep
+class PLUGINDLLEXPORT UsersQmlViewStep : public Calamares::QmlViewStep
 {
     Q_OBJECT
 
 public:
-    explicit PartitionQmlViewStep( QObject* parent = nullptr );
+    explicit UsersQmlViewStep( QObject* parent = nullptr );
 
     QString prettyName() const override;
 
@@ -54,6 +53,4 @@ private:
     QList< Calamares::job_ptr > m_jobs;
 };
 
-CALAMARES_PLUGIN_FACTORY_DECLARATION( PartitionQmlViewStepFactory )
-
-#endif  // PARTITION_QMLVIEWSTEP_H
+CALAMARES_PLUGIN_FACTORY_DECLARATION( UsersQmlViewStepFactory )

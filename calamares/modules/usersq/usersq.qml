@@ -1,7 +1,5 @@
 /* === This file is part of Calamares - <https://github.com/calamares> ===
  *
- *   Copyright 2020, Adriaan de Groot <groot@kde.org>
- *   Copyright 2020, Anke Boersma <demm@kaosx.us>
  *   Copyright 2020, Oliver Smith <ollieparanoid@postmarketos.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
@@ -30,24 +28,15 @@ import QtQuick.VirtualKeyboard 2.1
 
 Page
 {
-    id: partition
+    id: usersq
 
-    property var screen: "fde_confirm"
+    property var screen: "default_pin"
     property var screenPrevious: []
     property var titles: {
-        "fde_confirm": "Full disk encryption",
-        "fde_pass": "Full disk encryption",
-        "install_confirm": "Ready to install",
+        "default_pin": "Lockscreen PIN",
+        "ssh_confirm": "SSH server",
+        "ssh_credentials": "SSH credentials",
     }
-    /* Only allow characters, that can be typed in with the postmarketOS
-     * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
-     * FIXME: move to config file */
-     property var allowed_chars:
-        /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
-        /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-        /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
-        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]" +
-        /* bottom row */ " ."
 
     Item {
         id: appContainer
@@ -131,10 +120,6 @@ Page
         anchors.right: parent.right
     }
 
-    Timer {
-        id: timer
-    }
-
     /* Navigation related */
     function navTo(name, historyPush=true) {
         if (historyPush)
@@ -142,7 +127,7 @@ Page
         screen = name;
         load.source = name + ".qml";
         mobileTitle.text = "<b>" + titles[name] + "</b>";
-	Qt.inputMethod.hide();
+        Qt.inputMethod.hide();
     }
     function navFinish() {
         ViewManager.next();
@@ -156,16 +141,6 @@ Page
         navTo(screen, false);
     }
 
-    /* String formatting */
-    function allowed_chars_multiline() {
-        /* return allowed_chars split across multiple lines */
-        var step = 20;
-        var ret = "";
-        for (var i = 0; i < allowed_chars.length + step; i += step)
-            ret += allowed_chars.slice(i, i + step) + "\n";
-        return ret.trim();
-    }
-
     /* Input verification */
     function validationFailure(errorText, message="") {
         errorText.text = message;
@@ -177,27 +152,103 @@ Page
         errorText.visible = false;
         return true;
     }
-    function check_chars(input) {
-        for (var i = 0; i < input.length; i++) {
-            if (allowed_chars.indexOf(input[i]) == -1)
-                return false;
-        }
-        return true;
+    function validatePin(userPin, userPinRepeat, errorText) {
+        var pin = userPin.text;
+        var repeat = userPinRepeat.text;
+
+        if (pin == "")
+            return validationFailure(errorText);
+
+        if (!pin.match(/^[0-9]*$/))
+            return validationFailure(errorText,
+                                     "Only digits are allowed.");
+
+        if (pin.length < 5)
+            return validationFailure(errorText,
+                                     "Too short: needs at least 5 digits.");
+
+        if (repeat == "")
+            return validationFailure(errorText);
+
+        if (repeat != pin)
+            return validationFailure(errorText,
+                                     "The PINs don't match.");
+                             
+        return validationFailureClear(errorText);
     }
-    function validatePassword(password, passwordRepeat, errorText) {
+    function validateSshUsername(username, errorText) {
+        var name = username.text;
+        var reserved = [
+            "adm",
+            "at ",
+            "bin",
+            "colord",
+            "cron",
+            "cyrus",
+            "daemon",
+            "ftp",
+            "games",
+            "geoclue",
+            "guest",
+            "halt",
+            "lightdm",
+            "lp",
+            "mail",
+            "man",
+            "messagebus",
+            "news",
+            "nobody",
+            "ntp",
+            "operator",
+            "polkitd",
+            "postmaster",
+            "pulse",
+            "root",
+            "shutdown",
+            "smmsp",
+            "squid",
+            "sshd",
+            "sync",
+            "user", /* postmarketOS specific: default user name */
+            "uucp",
+            "vpopmail",
+            "xfs",
+        ]
+
+        /* Validate characters */
+        for (var i=0; i<name.length; i++) {
+            if (i) {
+                if (!name[i].match(/^[a-z0-9_-]$/))
+                    return validationFailure(errorText,
+                                             "Characters must be lowercase" +
+                                             " letters, numbers,<br>" +
+                                             " underscores or minus signs.");
+            } else {
+                if (!name[i].match(/^[a-z_]$/))
+                    return validationFailure(errorText,
+                                             "First character must be a" +
+                                             " lowercase letter or an" +
+                                             " underscore.");
+            }
+        }
+
+        /* Validate against reserved usernames */
+        for (var i=0;i<reserved.length;i++) {
+            if (name == reserved[i])
+                return validationFailure(errorText, "Username '" +
+                                                    reserved[i] +
+                                                    "' is reserved.")
+        }
+
+        /* Passed */
+        return validationFailureClear(errorText);
+    }
+    function validateSshPassword(password, passwordRepeat, errorText) {
         var pass = password.text;
         var repeat = passwordRepeat.text;
 
         if (pass == "")
             return validationFailure(errorText);
-
-        if (!check_chars(pass))
-            return validationFailure(errorText,
-                                     "The password must only contain" +
-                                     " these characters, others cannot be" +
-                                     " typed in at boot time:\n" +
-                                     "\n" +
-                                     allowed_chars_multiline());
 
         if (pass.length < 8)
             return validationFailure(errorText,
