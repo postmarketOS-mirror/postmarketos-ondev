@@ -11,19 +11,39 @@
 #   NOTE: we don't do this in .post-install, because then it would alter the
 #   configs, even if a user installed postmarketos-ondev by accident.
 
-if [ "$#" -ne 5 ]; then
+write_welcomeq_pmos_config() {
+	# Version: "edge", "v20.05", ...
+	version="$channel"
+	if [ "$channel" != "edge" ]; then
+		version="$channel_branch_pmaports"
+	fi
+
+	cat <<- EOF > /etc/calamares/modules/welcomeq-pmos.qml
+	---
+	arch: "$deviceinfo_arch"
+	device: "$deviceinfo_name"
+	userInterface: "$user_interface"
+	version: "$version"
+	EOF
+}
+
+if [ "$#" -lt 5 ]; then
 	echo "ERROR: do not run this script manually."
 	echo "It's only meant to be called during 'pmbootstrap install --ondev'"
 	exit 1
 fi
+
+. /etc/deviceinfo
 
 channel="$1"
 channel_description="$2"
 channel_branch_pmaports="$3"
 channel_branch_aports="$4"
 channel_mirrordir_alpine="$5"
+user_interface="$6"
 
 set -x
+write_welcomeq_pmos_config
 
 # Adjust root partition label in /etc/fstab, so OpenRC can correctly remount it
 # as RW during boot
