@@ -50,7 +50,7 @@ Page
             height: parent.height
 
             Rectangle {
-                id: usersNavigation
+                id: mobileNavigation
                 width: parent.width
                 height: 40
                 color: "#e6e4e1"
@@ -67,10 +67,9 @@ Page
                     height: parent.height
                     spacing: 6
 
-                    /* back button */
                     Button {
                         Layout.leftMargin: 6
-                        id: usersBack
+                        id: mobileBack
                         text: "<"
 
                         background: Rectangle {
@@ -79,13 +78,13 @@ Page
                             border.color: "#c1bab5"
                             border.width: 1
                             radius: 4
-                            color: usersBack.down ? "#dbdbdb" : "#f2f2f2"
+                            color: mobileBack.down ? "#dbdbdb" : "#f2f2f2"
                         }
 
                         onClicked: navBack()
                     }
                     Text {
-                        id: usersTitle
+                        id: mobileTitle
                         text: "<b>Title text</b>"
                         color: "#303638"
                     }
@@ -95,7 +94,7 @@ Page
             Loader {
                 id: load
                 anchors.left: parent.left
-                anchors.top: usersNavigation.bottom
+                anchors.top: mobileNavigation.bottom
                 anchors.right: parent.right
             }
         }
@@ -113,7 +112,7 @@ Page
             screenPrevious.push(screen);
         screen = name;
         load.source = name + ".qml";
-        usersTitle.text = "<b>" + titles[name] + "</b>";
+        mobileTitle.text = "<b>" + titles[name] + "</b>";
         Qt.inputMethod.hide();
     }
     function navFinish() {
