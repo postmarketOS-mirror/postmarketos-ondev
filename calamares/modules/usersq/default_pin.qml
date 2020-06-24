@@ -99,7 +99,7 @@ Item {
         text: qsTr("Continue")
         onClicked: {
             if (validatePin(userPin, userPinRepeat, errorText)) {
-                navTo("ssh_enable");
+                navTo("ssh_confirm");
             }
         }
     }

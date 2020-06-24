@@ -35,7 +35,7 @@ Page
     property var titles: {
         "default_name": "Username",
         "default_pin": "Lockscreen PIN",
-        "ssh_enable": "SSH server",
+        "ssh_confirm": "SSH server",
         "ssh_credentials": "SSH credentials",
     }
 
