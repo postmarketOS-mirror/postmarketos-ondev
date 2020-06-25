@@ -57,7 +57,7 @@ Item {
         text: qsTr("Install")
         onClicked: {
             config.isReady = true;
-            navTo("install_wait");
+            navFinish();
         }
     }
 }

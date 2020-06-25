@@ -38,7 +38,6 @@ Page
         "fde_confirm": "Full disk encryption",
         "fde_pass": "Full disk encryption",
         "install_confirm": "Ready to install",
-        "install_wait": "Please wait",
     }
     /* Only allow characters, that can be typed in with the postmarketOS
      * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
@@ -128,17 +127,6 @@ Page
         load.source = name + ".qml";
         mobileTitle.text = "<b>" + titles[name] + "</b>";
 	Qt.inputMethod.hide();
-
-	/* Start the installation */
-	if (name == "install_wait") {
-                mobileBack.visible = false
-                /* Wait a second (so the screen can render), then let
-		 * PartitionQmlViewStep.cpp::onLeave() do the rest. */
-                timer.interval = 1000;
-                timer.repeat = false;
-                timer.triggered.connect(ViewManager.next);
-                timer.start();
-	}
     }
     function navFinish() {
         ViewManager.next();
