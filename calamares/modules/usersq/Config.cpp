@@ -16,3 +16,10 @@ Config::setConfigurationMap( const QVariantMap& configurationMap )
      * it to transfer what the user typed in (username, pass etc.) to the
      * global config, so it can be used later in the installation. */
 }
+
+void
+Config::setUsername( const QString &username )
+{
+    m_username = username;
+    emit usernameChanged( m_username );
+}

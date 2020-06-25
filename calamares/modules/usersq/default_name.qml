@@ -50,6 +50,7 @@ Item {
         placeholderText: qsTr("Username (default: 'user')")
         inputMethodHints: Qt.ImhPreferLowercase
         onTextChanged: validateUsername(username, errorText)
+        text: config.username
 
         /* Workaround for QTBUG-80281: buttons on the virtual keyboard
          * don't work until window is out of focus and focused again,

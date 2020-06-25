@@ -7,7 +7,7 @@
 class Config : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY( QString username READ username WRITE setUsername)
+    Q_PROPERTY( QString username READ username WRITE setUsername NOTIFY usernameChanged)
 
 public:
     Config( QObject* parent = nullptr );
@@ -15,8 +15,11 @@ public:
 
     QString username() const { return m_username; }
 
-    void setUsername(const QString &v) { m_username = v; }
+    void setUsername( const QString &username );
 
 private:
     QString m_username;
+
+signals:
+    void usernameChanged ( QString username );
 };

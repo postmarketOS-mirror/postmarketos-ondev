@@ -114,13 +114,6 @@ Page
         load.source = name + ".qml";
         mobileTitle.text = "<b>" + titles[name] + "</b>";
         Qt.inputMethod.hide();
-
-        /* Restore input */
-        switch (name) {
-            case "default_name":
-                username.Text = config.username;
-                break;
-        }
     }
     function navFinish() {
         ViewManager.next();
