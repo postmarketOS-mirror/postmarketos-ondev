@@ -140,7 +140,6 @@ Page
     }
     function validateUsername(username, errorText, reservedAdditional="") {
         var name = username.text;
-        config.username = name;
 
         /* Validate characters */
         for (var i=0; i<name.length; i++) {
@@ -167,9 +166,6 @@ Page
     function validatePin(userPin, userPinRepeat, errorText) {
         var pin = userPin.text;
         var repeat = userPinRepeat.text;
-
-        config.password = pin;
-        config.passwordRepeat = repeat;
 
         if (pin == "")
             return validationFailure(errorText);

@@ -87,8 +87,10 @@ Item {
 
         text: qsTr("Continue")
         onClicked: {
-            if (validateUsername(username, errorText))
+            if (validateUsername(username, errorText)) {
+                config.username = username.text;
                 navTo("default_pin");
+            }
         }
     }
 }

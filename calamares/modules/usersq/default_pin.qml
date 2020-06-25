@@ -101,6 +101,8 @@ Item {
         text: qsTr("Continue")
         onClicked: {
             if (validatePin(userPin, userPinRepeat, errorText)) {
+                config.password = userPin.text;
+                config.passwordRepeat = userPinRepeat.text;
                 navTo("ssh_confirm");
             }
         }
