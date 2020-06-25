@@ -55,6 +55,9 @@ Item {
         width: Math.min(parent.width / 1.5, 300)
 
         text: qsTr("Install")
-        onClicked: navTo("install_wait")
+        onClicked: {
+            config.isReady = true;
+            navTo("install_wait");
+        }
     }
 }

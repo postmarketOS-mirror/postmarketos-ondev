@@ -10,6 +10,7 @@ class Config : public QObject
     Q_PROPERTY( QString password READ password WRITE setPassword
                 NOTIFY passwordChanged)
     Q_PROPERTY( bool isFdeEnabled READ isFdeEnabled WRITE setIsFdeEnabled )
+    Q_PROPERTY( bool isReady READ isReady WRITE setIsReady )
 
 public:
     Config( QObject* parent = nullptr );
@@ -17,15 +18,17 @@ public:
 
     QString password() const { return m_password; }
     bool isFdeEnabled() { return m_isFdeEnabled; }
+    bool isReady() { return m_isReady; }
 
     void setPassword( const QString &password );
     void setIsFdeEnabled( bool isFdeEnabled );
+    void setIsReady( bool isReady );
 
 private:
     QString m_password;
     bool m_isFdeEnabled;
+    bool m_isReady = false;
 
 signals:
     void passwordChanged ( QString password );
-    /* isFdeEnabled doesn't need a signal, we don't read it from QML */
 };

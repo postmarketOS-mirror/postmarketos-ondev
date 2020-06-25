@@ -74,6 +74,9 @@ FillGlobalStorage(const char *mountpoint)
 void
 PartitionQmlViewStep::onLeave()
 {
+    /* Don't continue if user hit back button */
+    if (m_config->isReady())
+        createJobs();
 }
 
 QString
