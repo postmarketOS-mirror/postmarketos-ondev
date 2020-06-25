@@ -83,7 +83,7 @@ Item {
         echoMode: TextInput.Password
         onTextChanged: validateSshPassword(password, passwordRepeat,
                                            errorTextPassword)
-        text: config.sshPasswordRepeat
+        text: config.sshPassword
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -112,7 +112,6 @@ Item {
                                     errorTextPassword)) {
                 config.sshUsername = username.text;
                 config.sshPassword = password.text;
-                config.sshPasswordRepeat = passwordRepeat.text;
 
                 navFinish();
             }

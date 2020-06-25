@@ -32,13 +32,6 @@ Config::setPassword( const QString &password )
 }
 
 void
-Config::setPasswordRepeat( const QString &passwordRepeat )
-{
-    m_passwordRepeat = passwordRepeat;
-    emit passwordRepeatChanged( m_passwordRepeat );
-}
-
-void
 Config::setSshUsername( const QString &sshUsername )
 {
     m_sshUsername = sshUsername;
@@ -50,13 +43,6 @@ Config::setSshPassword( const QString &sshPassword )
 {
     m_sshPassword = sshPassword;
     emit sshPasswordChanged( m_sshPassword );
-}
-
-void
-Config::setSshPasswordRepeat( const QString &sshPasswordRepeat )
-{
-    m_sshPasswordRepeat = sshPasswordRepeat;
-    emit sshPasswordRepeatChanged( m_sshPasswordRepeat );
 }
 
 void

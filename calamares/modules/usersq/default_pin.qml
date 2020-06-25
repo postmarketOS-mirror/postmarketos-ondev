@@ -75,7 +75,7 @@ Item {
         inputMethodHints: Qt.ImhDigitsOnly
         echoMode: TextInput.Password
         onTextChanged: validatePin(userPin, userPinRepeat, errorText)
-        text: config.passwordRepeat
+        text: config.password
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -102,7 +102,6 @@ Item {
         onClicked: {
             if (validatePin(userPin, userPinRepeat, errorText)) {
                 config.password = userPin.text;
-                config.passwordRepeat = userPinRepeat.text;
                 navTo("ssh_confirm");
             }
         }
