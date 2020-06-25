@@ -13,6 +13,7 @@ class Config : public QObject
                 NOTIFY passwordChanged)
     Q_PROPERTY( QString passwordRepeat READ passwordRepeat
                 WRITE setPasswordRepeat NOTIFY passwordRepeatChanged)
+    Q_PROPERTY( bool isSshEnabled READ isSshEnabled WRITE setIsSshEnabled )
 
 public:
     Config( QObject* parent = nullptr );
@@ -21,15 +22,18 @@ public:
     QString username() const { return m_username; }
     QString password() const { return m_password; }
     QString passwordRepeat() const { return m_passwordRepeat; }
+    bool isSshEnabled() { return m_isSshEnabled; }
 
     void setUsername( const QString &username );
     void setPassword( const QString &password );
     void setPasswordRepeat( const QString &passwordRepeat );
+    void setIsSshEnabled( bool isSshEnabled );
 
 private:
     QString m_username;
     QString m_password;
     QString m_passwordRepeat;
+    bool m_isSshEnabled;
 
 signals:
     void usernameChanged ( QString username );

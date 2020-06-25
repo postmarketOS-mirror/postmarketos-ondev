@@ -59,7 +59,10 @@ Item {
         width: Math.min(parent.width / 1.5, 300)
 
         text: qsTr("Enable")
-        onClicked: navTo("ssh_credentials")
+        onClicked: {
+            config.isSshEnabled = true;
+            navTo("ssh_credentials");
+        }
     }
 
     Button {
@@ -69,6 +72,9 @@ Item {
         width: Math.min(parent.width / 1.5, 300)
 
         text: qsTr("Disable")
-        onClicked: navFinish()
+        onClicked: {
+            config.isSshEnabled = false;
+            navFinish();
+        }
     }
 }

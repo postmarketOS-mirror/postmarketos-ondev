@@ -37,3 +37,9 @@ Config::setPasswordRepeat( const QString &passwordRepeat )
     m_passwordRepeat = passwordRepeat;
     emit passwordRepeatChanged( m_passwordRepeat );
 }
+
+void
+Config::setIsSshEnabled( const bool isSshEnabled )
+{
+    m_isSshEnabled = isSshEnabled;
+}
