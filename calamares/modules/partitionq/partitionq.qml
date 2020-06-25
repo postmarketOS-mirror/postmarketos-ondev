@@ -32,9 +32,22 @@ Page
 {
     id: partition
 
-    Timer {
-        id: timer
+    property var screen: "fde_confirm"
+    property var screenPrevious: []
+    property var titles: {
+        "fde_confirm": "Full disk encryption",
+        "fde_pass": "Full disk encryption",
+        "install_confirm": "Ready to install",
+        "install_wait": "Please wait",
     }
+    /* Only allow characters, that can be typed in with the postmarketOS
+     * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
+     * FIXME: move to config file */
+     property var allowed_chars:
+        /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
+        /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
+        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]"
 
     Item {
         id: appContainer
@@ -46,121 +59,53 @@ Page
             width: parent.width
             height: parent.height
 
-            Text {
-                id: luksSimpleTopText
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                padding: 40
-                text: qsTr("<h3>Full disk encryption</h3>")
-                width: Math.min(parent.width / 1.5, 500)
-            }
+            Rectangle {
+                id: mobileNavigation
+                width: parent.width
+                height: 40
+                color: "#e6e4e1"
+                Layout.fillWidth: true
 
-            TextField {
-                id: luksPass
-                anchors.top: luksSimpleTopText.bottom
-                placeholderText: qsTr("Password")
-                onTextChanged: {
-                    pass.text = text;
-                    passwordError.visible = false;
-                }
+                border.width: 1
+                border.color: "#a7a7a7"
 
-                /* Workaround for QTBUG-80281: buttons on the virtual keyboard
-                 * don't work until window is out of focus and focused again,
-                 * terminal says "input method is not set".
-                 * https://bugreports.qt.io/browse/QTBUG-80281
-                 * https://forum.qt.io/post/594648 */
-                onActiveFocusChanged: {
-                    if(activeFocus) {
-                        Qt.inputMethod.update(Qt.ImQueryInput)
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                RowLayout {
+                    width: parent.width
+                    height: parent.height
+                    spacing: 6
+
+                    Button {
+                        Layout.leftMargin: 6
+                        id: mobileBack
+                        text: "<"
+
+                        background: Rectangle {
+                            implicitWidth: 32
+                            implicitHeight: 30
+                            border.color: "#c1bab5"
+                            border.width: 1
+                            radius: 4
+                            color: mobileBack.down ? "#dbdbdb" : "#f2f2f2"
+                        }
+
+                        onClicked: navBack()
+                    }
+                    Text {
+                        id: mobileTitle
+                        text: "<b>Title text</b>"
+                        color: "#303638"
                     }
                 }
-
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 50
-                padding: 40
-                echoMode: TextInput.Password
-                width: Math.min(parent.width / 1.5, 500)
             }
 
-            TextField {
-                id: luksPassRepeat
-                anchors.top: luksPass.bottom
-                placeholderText: qsTr("Password (repeat)")
-                onTextChanged: {
-                    passwordError.visible = false;
-                }
-
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 50
-                padding: 40
-                echoMode: TextInput.Password
-                width: Math.min(parent.width / 1.5, 500)
-            }
-
-            Text {
-                anchors.top: luksPassRepeat.bottom
-                id: passwordError
-                visible: false
-
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 50
-                padding: 40
-                width: Math.min(parent.width / 1.5, 500)
-            }
-
-            Button {
-                id: luksPassContinue
-                anchors.top: passwordError.bottom
-                text: qsTr("Continue")
-
-                onClicked: {
-                    passwordError.text = qsTr("");
-                    passwordError.visible = true;
-
-                    if (luksPass.text !== luksPassRepeat.text) {
-                        passwordError.text = qsTr("The passwords do not match");
-                    } else if (luksPass.text.length < 5) {
-                        passwordError.text = qsTr("The password is too short, 5" +
-                                                  " or more characters are" +
-                                                  " required.");
-                    } else if (!check_chars(luksPass.text)) {
-                        passwordError.text = qsTr("The password must only" +
-                                                  " contain\n" +
-                                                  "these characters, others" +
-                                                  " cannot be\n" +
-                                                  "typed in at boot time:") +
-                                                  "\n\n" +
-                                                  allowed_chars_multiline();
-                    } else {
-                        /* Prepare a wait screen */
-                        luksSimpleTopText.text = qsTr("Creating an encrypted" +
-                                                      " partition.\n" +
-                                                      "This may take up to" +
-                                                      " 30 seconds.\n" +
-                                                      "Please be patient.");
-                        luksPass.visible = false;
-                        luksPassRepeat.visible = false;
-                        luksPassContinue.visible = false;
-                        inputPanel.visible = false;
-
-                        /* Wait a second (so the screen can render), then let
-                         * PartitionQmlViewStep.cpp::onLeave() create the
-                         * encrypted partition and mount it. */
-                        timer.interval = 1000;
-                        timer.repeat = false;
-                        timer.triggered.connect(ViewManager.next);
-                        timer.start();
-                    }
-                }
-
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 50
-                padding: 40
-                width: Math.min(parent.width / 1.5, 500)
-            }
             Loader {
-                id:load
-                anchors.fill: parent
+                id: load
+                anchors.left: parent.left
+                anchors.top: mobileNavigation.bottom
+                anchors.right: parent.right
             }
         }
     }
@@ -171,23 +116,43 @@ Page
         anchors.right: parent.right
     }
 
-    /* Only allow characters, that can be typed in with the postmarketOS
-     * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
-     * FIXME: move to config file */
-     property var allowed_chars:
-        /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
-        /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-        /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
-        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]"
-
-    function check_chars(input) {
-        for (var i = 0; i < input.length; i++) {
-            if (allowed_chars.indexOf(input[i]) == -1)
-                return false;
-        }
-        return true;
+    Timer {
+        id: timer
     }
 
+    /* Navigation related */
+    function navTo(name, historyPush=true) {
+        if (historyPush)
+            screenPrevious.push(screen);
+        screen = name;
+        load.source = name + ".qml";
+        mobileTitle.text = "<b>" + titles[name] + "</b>";
+	Qt.inputMethod.hide();
+
+	/* Start the installation */
+	if (name == "install_wait") {
+                mobileBack.visible = false
+                /* Wait a second (so the screen can render), then let
+		 * PartitionQmlViewStep.cpp::onLeave() do the rest. */
+                timer.interval = 1000;
+                timer.repeat = false;
+                timer.triggered.connect(ViewManager.next);
+                timer.start();
+	}
+    }
+    function navFinish() {
+        ViewManager.next();
+    }
+    function navBack() {
+        if (screenPrevious.length)
+            return navTo(screenPrevious.pop(), false);
+        ViewManager.back();
+    }
+    function onActivate() {
+        navTo(screen, false);
+    }
+
+    /* String formatting */
     function allowed_chars_multiline() {
         /* return allowed_chars split across multiple lines */
         var step = 20;
@@ -197,4 +162,50 @@ Page
         return ret.trim();
     }
 
+    /* Input verification */
+    function validationFailure(errorText, message="") {
+        errorText.text = message;
+        errorText.visible = true;
+        return false;
+    }
+    function validationFailureClear(errorText) {
+        errorText.text = "";
+        errorText.visible = false;
+        return true;
+    }
+    function check_chars(input) {
+        for (var i = 0; i < input.length; i++) {
+            if (allowed_chars.indexOf(input[i]) == -1)
+                return false;
+        }
+        return true;
+    }
+    function validatePassword(password, passwordRepeat, errorText) {
+        var pass = password.text;
+        var repeat = passwordRepeat.text;
+
+        if (pass == "")
+            return validationFailure(errorText);
+
+        if (!check_chars(pass))
+            return validationFailure(errorText,
+                                     "The password must only contain\n" +
+                                     "these characters, others cannot be\n" +
+                                     "typed in at boot time:\n" +
+                                     "\n" +
+                                     allowed_chars_multiline());
+
+        if (pass.length < 8)
+            return validationFailure(errorText,
+                                     "Too short: needs at least 8" +
+                                     " characters.");
+
+        if (repeat == "")
+            return validationFailure(errorText);
+
+        if (pass != repeat)
+            return validationFailure(errorText, "Passwords don't match.");
+
+        return validationFailureClear(errorText);
+    }
 }

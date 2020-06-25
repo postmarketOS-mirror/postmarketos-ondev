@@ -1,5 +1,9 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-  <file alias="partitionq.qml">partitionq.qml</file>
+  <file>partitionq.qml</file>
+  <file>fde_confirm.qml</file> <!-- enable FDE or not? -->
+  <file>fde_pass.qml</file> <!-- FDE password (optional) -->
+  <file>install_confirm.qml</file> <!-- final confirmation before install -->
+  <file>install_wait.qml</file> <!-- wait screen while cryptsetup etc. runs -->
 </qresource>
 </RCC>
