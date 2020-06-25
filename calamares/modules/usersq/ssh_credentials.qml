@@ -39,6 +39,8 @@ Item {
         placeholderText: qsTr("SSH username")
         inputMethodHints: Qt.ImhPreferLowercase
         onTextChanged: validateSshUsername(username, errorTextUsername)
+        text: config.sshUsername
+
         onActiveFocusChanged: {
             if(activeFocus) {
                 Qt.inputMethod.update(Qt.ImQueryInput);
@@ -67,6 +69,7 @@ Item {
         echoMode: TextInput.Password
         onTextChanged: validateSshPassword(password, passwordRepeat,
                                            errorTextPassword)
+        text: config.sshPassword
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -80,6 +83,7 @@ Item {
         echoMode: TextInput.Password
         onTextChanged: validateSshPassword(password, passwordRepeat,
                                            errorTextPassword)
+        text: config.sshPasswordRepeat
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -106,6 +110,10 @@ Item {
             if (validateSshUsername(username, errorTextUsername) &&
                 validateSshPassword(password, passwordRepeat,
                                     errorTextPassword)) {
+                config.sshUsername = username.text;
+                config.sshPassword = password.text;
+                config.sshPasswordRepeat = passwordRepeat.text;
+
                 navFinish();
             }
         }

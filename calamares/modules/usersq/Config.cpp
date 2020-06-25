@@ -39,6 +39,27 @@ Config::setPasswordRepeat( const QString &passwordRepeat )
 }
 
 void
+Config::setSshUsername( const QString &sshUsername )
+{
+    m_sshUsername = sshUsername;
+    emit sshUsernameChanged( m_sshUsername );
+}
+
+void
+Config::setSshPassword( const QString &sshPassword )
+{
+    m_sshPassword = sshPassword;
+    emit sshPasswordChanged( m_sshPassword );
+}
+
+void
+Config::setSshPasswordRepeat( const QString &sshPasswordRepeat )
+{
+    m_sshPasswordRepeat = sshPasswordRepeat;
+    emit sshPasswordRepeatChanged( m_sshPasswordRepeat );
+}
+
+void
 Config::setIsSshEnabled( const bool isSshEnabled )
 {
     m_isSshEnabled = isSshEnabled;
