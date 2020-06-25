@@ -42,6 +42,7 @@ Item {
         echoMode: TextInput.Password
         onTextChanged: validatePassword(password, passwordRepeat,
                                         errorText)
+        text: config.password
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -55,6 +56,7 @@ Item {
         echoMode: TextInput.Password
         onTextChanged: validatePassword(password, passwordRepeat,
                                         errorText)
+        text: config.password
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -80,7 +82,7 @@ Item {
         onClicked: {
             if (validatePassword(password, passwordRepeat, errorText)) {
                 config.password = password.text;
-                navTo("install_wait");
+                navTo("install_confirm");
             }
         }
     }
