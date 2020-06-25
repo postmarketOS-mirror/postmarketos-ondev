@@ -11,8 +11,8 @@ Config::Config( QObject* parent )
 void
 Config::setConfigurationMap( const QVariantMap& configurationMap )
 {
-    m_arch = configurationMap.value("arch").toString();
-    m_device = configurationMap.value("device").toString();
-    m_userInterface = configurationMap.value("userInterface").toString();
-    m_version = configurationMap.value("version").toString();
+    /* Not using any config values yet. The Config.cpp/Config.h is convention
+     * for transfering data between QML and C++ code in Calamares, and we use
+     * it to transfer what the user typed in (username, pass etc.) to the
+     * global config, so it can be used later in the installation. */
 }

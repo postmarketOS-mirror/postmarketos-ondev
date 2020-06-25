@@ -7,23 +7,16 @@
 class Config : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY( QString arch READ arch CONSTANT FINAL )
-    Q_PROPERTY( QString device READ device CONSTANT FINAL )
-    Q_PROPERTY( QString userInterface READ userInterface CONSTANT FINAL )
-    Q_PROPERTY( QString version READ version CONSTANT FINAL )
+    Q_PROPERTY( QString username READ username WRITE setUsername)
 
 public:
     Config( QObject* parent = nullptr );
     void setConfigurationMap( const QVariantMap& );
 
-    QString arch() const { return m_arch; }
-    QString device() const { return m_device; }
-    QString userInterface() const { return m_userInterface; }
-    QString version() const { return m_version; }
+    QString username() const { return m_username; }
+
+    void setUsername(const QString &v) { m_username = v; }
 
 private:
-    QString m_arch;
-    QString m_device;
-    QString m_userInterface;
-    QString m_version;
+    QString m_username;
 };
