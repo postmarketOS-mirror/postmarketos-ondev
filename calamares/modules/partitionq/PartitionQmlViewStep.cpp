@@ -19,6 +19,7 @@
  */
 
 #include "PartitionQmlViewStep.h"
+#include "PartitionJob.h"
 
 #include "GlobalStorage.h"
 #include "JobQueue.h"
@@ -118,4 +119,15 @@ QObject*
 PartitionQmlViewStep::getConfig()
 {
     return m_config;
+}
+
+Calamares::JobList
+PartitionQmlViewStep::createJobs()
+{
+    QList< Calamares::job_ptr > list;
+    Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
+                                          m_config->password() );
+    list.append( Calamares::job_ptr( j ) );
+
+    return list;
 }

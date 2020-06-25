@@ -7,6 +7,8 @@ calamares_add_plugin( partitionq
     TYPE viewmodule
     EXPORT_MACRO PLUGINDLLEXPORT_PRO
     SOURCES
+	PartitionJob.cpp
+	PartitionJob.h
         Config.cpp
         Config.h
         PartitionQmlViewStep.cpp
