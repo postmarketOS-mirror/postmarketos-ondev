@@ -168,6 +168,9 @@ Page
         var pin = userPin.text;
         var repeat = userPinRepeat.text;
 
+        config.password = pin;
+        config.passwordRepeat = repeat;
+
         if (pin == "")
             return validationFailure(errorText);
 

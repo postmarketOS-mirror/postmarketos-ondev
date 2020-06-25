@@ -23,3 +23,17 @@ Config::setUsername( const QString &username )
     m_username = username;
     emit usernameChanged( m_username );
 }
+
+void
+Config::setPassword( const QString &password )
+{
+    m_password = password;
+    emit passwordChanged( m_password );
+}
+
+void
+Config::setPasswordRepeat( const QString &passwordRepeat )
+{
+    m_passwordRepeat = passwordRepeat;
+    emit passwordRepeatChanged( m_passwordRepeat );
+}

@@ -53,6 +53,7 @@ Item {
         placeholderText: qsTr("PIN")
         echoMode: TextInput.Password
         onTextChanged: validatePin(userPin, userPinRepeat, errorText)
+        text: config.password
 
         /* Let the virtual keyboard change to digits only */
         inputMethodHints: Qt.ImhDigitsOnly
@@ -74,6 +75,7 @@ Item {
         inputMethodHints: Qt.ImhDigitsOnly
         echoMode: TextInput.Password
         onTextChanged: validatePin(userPin, userPinRepeat, errorText)
+        text: config.passwordRepeat
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
