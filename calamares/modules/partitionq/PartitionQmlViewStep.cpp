@@ -39,13 +39,13 @@ CALAMARES_PLUGIN_FACTORY_DEFINITION( PartitionQmlViewStepFactory, registerPlugin
 void
 PartitionQmlViewStep::setConfigurationMap( const QVariantMap& configurationMap )
 {
+    m_config->setConfigurationMap( configurationMap );
     Calamares::QmlViewStep::setConfigurationMap( configurationMap );
-    m_pass = new PartitionQmlViewStepPass();
-    setContextProperty( "pass", m_pass );
 }
 
 PartitionQmlViewStep::PartitionQmlViewStep( QObject* parent )
     : Calamares::QmlViewStep( parent )
+    , m_config( new Config( this ) )
 {
 }
 
@@ -73,42 +73,6 @@ FillGlobalStorage(const char *mountpoint)
 void
 PartitionQmlViewStep::onLeave()
 {
-    /* Partition selection is not implemented yet, let ondev-boot.sh pass it */
-    const char *dev = getenv("ONDEV_PARTITION_TARGET");
-    std::string pass_str = m_pass->text().toStdString();
-    const char *pass = pass_str.c_str();
-    const char *dev_crypt = "pm_crypt";
-    const char *dev_crypt_path = "/dev/mapper/pm_crypt";
-    const char *ext4_opts = "^metadata_csum,^huge_file";
-    const char *label = "pmOS_root";
-    const char *mountpoint = "/mnt/install";
-    QProcess process;
-
-    cDebug() << "Running: cryptsetup luksFormat --use-urandom" << dev;
-    process.start( "cryptsetup", { "luksFormat", "--use-urandom", dev } );
-    process.write(pass, qstrlen(pass));
-    process.write("\n", 1);
-    process.waitForFinished();
-
-    cDebug() << "Running: cryptsetup luksOpen" << dev << dev_crypt;
-    process.start( "cryptsetup", { "luksOpen", dev, dev_crypt } );
-    process.write(pass, qstrlen(pass));
-    process.write("\n", 1);
-    process.waitForFinished();
-
-    cDebug() << "Running: mkfs.ext4 -O" << ext4_opts << "-L" << label << dev_crypt_path;
-    process.start( "mkfs.ext4", {"-O", ext4_opts, "-L", label, dev_crypt_path} );
-    process.waitForFinished();
-
-    cDebug() << "Running: mkdir -p" << mountpoint;
-    process.start( "mkdir", { "-p", mountpoint } );
-    process.waitForFinished();
-
-    cDebug() << "Running: mount" << dev_crypt_path << mountpoint;
-    process.start( "mount", { dev_crypt_path, mountpoint } );
-    process.waitForFinished();
-
-    FillGlobalStorage(mountpoint);
 }
 
 QString
@@ -148,4 +112,10 @@ Calamares::JobList
 PartitionQmlViewStep::jobs() const
 {
     return Calamares::JobList();
+}
+
+QObject*
+PartitionQmlViewStep::getConfig()
+{
+    return m_config;
 }

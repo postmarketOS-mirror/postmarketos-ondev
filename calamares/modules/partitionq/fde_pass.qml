@@ -79,6 +79,7 @@ Item {
         text: qsTr("Continue")
         onClicked: {
             if (validatePassword(password, passwordRepeat, errorText)) {
+                config.password = password.text;
                 navTo("install_wait");
             }
         }

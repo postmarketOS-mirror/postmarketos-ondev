@@ -58,7 +58,10 @@ Item {
         width: Math.min(parent.width / 1.5, 300)
 
         text: qsTr("Enable")
-        onClicked: navTo("fde_pass")
+        onClicked: {
+            config.isFdeEnabled = true;
+            navTo("fde_pass");
+        }
     }
 
     Button {
@@ -68,6 +71,9 @@ Item {
         width: Math.min(parent.width / 1.5, 300)
 
         text: qsTr("Disable")
-        onClicked: navTo("install_confirm")
+        onClicked: {
+            config.isFdeEnabled = false;
+            navTo("install_confirm");
+        }
     }
 }

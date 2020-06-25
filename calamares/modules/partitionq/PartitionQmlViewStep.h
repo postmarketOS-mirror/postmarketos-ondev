@@ -19,6 +19,7 @@
 
 #ifndef PARTITION_QMLVIEWSTEP_H
 #define PARTITION_QMLVIEWSTEP_H
+#include "Config.h"
 
 #include "utils/PluginFactory.h"
 #include "viewpages/QmlViewStep.h"
@@ -28,32 +29,6 @@
 #include <QObject>
 #include <QVariantMap>
 
-namespace CalamaresUtils
-{
-namespace GeoIP
-{
-class Handler;
-}
-}  // namespace CalamaresUtils
-
-class GeneralRequirements;
-
-class PartitionQmlViewStepPass : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(QString text READ text WRITE setText)
-public:
-    QString text() const { return m_text; }
-    void setText(const QString &text) {
-        m_text = text;
-    }
-
-private:
-    QString m_text;
-};
-
-
-// TODO: Needs a generic Calamares::QmlViewStep as base class
-// TODO: refactor and move what makes sense to base class
 class PLUGINDLLEXPORT PartitionQmlViewStep : public Calamares::QmlViewStep
 {
     Q_OBJECT
@@ -65,17 +40,17 @@ public:
 
     bool isNextEnabled() const override;
     bool isBackEnabled() const override;
-
     bool isAtBeginning() const override;
     bool isAtEnd() const override;
 
     Calamares::JobList jobs() const override;
 
     void setConfigurationMap( const QVariantMap& configurationMap ) override;
-
     void onLeave();
+    QObject* getConfig() override;
+
 private:
-    PartitionQmlViewStepPass *m_pass;
+    Config* m_config;
 };
 
 CALAMARES_PLUGIN_FACTORY_DECLARATION( PartitionQmlViewStepFactory )
