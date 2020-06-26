@@ -50,27 +50,6 @@ PartitionQmlViewStep::PartitionQmlViewStep( QObject* parent )
 {
 }
 
-/* Similar to modules/partition/jobs/FillGlobalStorageJob */
-void
-FillGlobalStorage(const char *mountpoint)
-{
-    Calamares::GlobalStorage* gs = Calamares::JobQueue::instance()->globalStorage();
-    QVariantList partitions;
-    QVariantMap partition;
-
-    /* See mapForPartition() */
-    partition[ "device"] = "/dev/mapper/pm_crypt";
-    partition[ "mountPoint" ] = "/";
-    partition[ "fsName" ] = "ext4";
-    partition[ "fs" ] = "ext4";
-    partition[ "uuid" ] = ""; /* FIXME */
-    partition[ "claimed" ] = true;
-
-    partitions << partition;
-    gs->insert( "partitions", partitions);
-    gs->insert( "rootMountPoint", mountpoint);
-}
-
 void
 PartitionQmlViewStep::onLeave()
 {
