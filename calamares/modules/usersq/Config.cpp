@@ -18,13 +18,6 @@ Config::setConfigurationMap( const QVariantMap& configurationMap )
 }
 
 void
-Config::setUsername( const QString &username )
-{
-    m_username = username;
-    emit usernameChanged( m_username );
-}
-
-void
 Config::setPassword( const QString &password )
 {
     m_password = password;

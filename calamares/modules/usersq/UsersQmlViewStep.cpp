@@ -41,8 +41,7 @@ void
 UsersQmlViewStep::onLeave()
 {
     m_jobs.clear();
-    Calamares::Job *j = new UsersJob( m_config->username(),
-                                      m_config->password(),
+    Calamares::Job *j = new UsersJob( m_config->password(),
                                       m_config->isSshEnabled(),
                                       m_config->sshUsername(),
                                       m_config->sshPassword() );

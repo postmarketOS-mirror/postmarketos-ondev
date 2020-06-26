@@ -24,8 +24,8 @@ class UsersJob : public Calamares::Job
 {
     Q_OBJECT
 public:
-    UsersJob( QString username, QString password, bool isSshEnabled,
-              QString sshUsername, QString sshPassword );
+    UsersJob( QString password, bool isSshEnabled, QString sshUsername,
+              QString sshPassword );
 
     QString prettyName() const override;
     Calamares::JobResult exec() override;
@@ -33,7 +33,6 @@ public:
     Calamares::JobList createJobs();
 
 private:
-    QString m_username;
     QString m_password;
     bool m_isSshEnabled;
     QString m_sshUsername;

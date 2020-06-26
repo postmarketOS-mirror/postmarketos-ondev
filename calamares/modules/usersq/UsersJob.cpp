@@ -28,10 +28,9 @@
 #include <QFileInfo>
 
 
-UsersJob::UsersJob( QString username, QString password, bool isSshEnabled,
-                    QString sshUsername, QString sshPassword )
+UsersJob::UsersJob( QString password, bool isSshEnabled, QString sshUsername,
+                    QString sshPassword )
     : Calamares::Job()
-    , m_username (username)
     , m_password (password)
     , m_isSshEnabled (isSshEnabled)
     , m_sshUsername (sshUsername)

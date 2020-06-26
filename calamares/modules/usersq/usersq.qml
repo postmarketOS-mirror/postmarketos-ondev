@@ -30,10 +30,9 @@ Page
 {
     id: usersq
 
-    property var screen: "default_name"
+    property var screen: "default_pin"
     property var screenPrevious: []
     property var titles: {
-        "default_name": "Username",
         "default_pin": "Lockscreen PIN",
         "ssh_confirm": "SSH server",
         "ssh_credentials": "SSH credentials",

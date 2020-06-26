@@ -7,8 +7,6 @@
 class Config : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY( QString username READ username WRITE setUsername
-                NOTIFY usernameChanged)
     Q_PROPERTY( QString password READ password WRITE setPassword
                 NOTIFY passwordChanged)
 
@@ -23,7 +21,6 @@ public:
     Config( QObject* parent = nullptr );
     void setConfigurationMap( const QVariantMap& );
 
-    QString username() const { return m_username; }
     QString password() const { return m_password; }
 
     QString sshUsername() const { return m_sshUsername; }
@@ -31,7 +28,6 @@ public:
 
     bool isSshEnabled() { return m_isSshEnabled; }
 
-    void setUsername( const QString &username );
     void setPassword( const QString &password );
 
     void setSshUsername( const QString &sshUsername );
@@ -40,7 +36,6 @@ public:
     void setIsSshEnabled( bool isSshEnabled );
 
 private:
-    QString m_username;
     QString m_password;
 
     QString m_sshUsername;
@@ -49,7 +44,6 @@ private:
     bool m_isSshEnabled;
 
 signals:
-    void usernameChanged ( QString username );
     void passwordChanged ( QString password );
 
     void sshUsernameChanged ( QString sshUsername );
