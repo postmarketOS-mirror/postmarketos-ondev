@@ -137,31 +137,6 @@ Page
         errorText.visible = false;
         return true;
     }
-    function validateUsername(username, errorText, reservedAdditional="") {
-        var name = username.text;
-
-        /* Validate characters */
-        for (var i=0; i<name.length; i++) {
-            if (i) {
-                if (!name[i].match(/^[a-z0-9_-]$/))
-                    return validationFailure(errorText,
-                                             "Characters must be lowercase" +
-                                             " letters, numbers,<br>" +
-                                             " underscores or minus signs.");
-            } else {
-                if (!name[i].match(/^[a-z_]$/))
-                    return validationFailure(errorText,
-                                             "First character must be a" +
-                                             " lowercase letter or an" +
-                                             " underscore.");
-            }
-        }
-
-        /* TODO: validate against reserved usernames */
-
-        /* Passed */
-        return validationFailureClear(errorText);
-    }
     function validatePin(userPin, userPinRepeat, errorText) {
         var pin = userPin.text;
         var repeat = userPinRepeat.text;
@@ -187,10 +162,71 @@ Page
         return validationFailureClear(errorText);
     }
     function validateSshUsername(username, errorText) {
-        /* FIXME: put default user's name here */
-        var reservedAdditional = "user";
+        var name = username.text;
+        var reserved = [
+            "adm",
+            "at ",
+            "bin",
+            "colord",
+            "cron",
+            "cyrus",
+            "daemon",
+            "ftp",
+            "games",
+            "geoclue",
+            "guest",
+            "halt",
+            "lightdm",
+            "lp",
+            "mail",
+            "man",
+            "messagebus",
+            "news",
+            "nobody",
+            "ntp",
+            "operator",
+            "polkitd",
+            "postmaster",
+            "pulse",
+            "root",
+            "shutdown",
+            "smmsp",
+            "squid",
+            "sshd",
+            "sync",
+            "user", /* postmarketOS specific: default user name */
+            "uucp",
+            "vpopmail",
+            "xfs",
+        ]
 
-        return validateUsername(username, errorText, reservedAdditional);
+        /* Validate characters */
+        for (var i=0; i<name.length; i++) {
+            if (i) {
+                if (!name[i].match(/^[a-z0-9_-]$/))
+                    return validationFailure(errorText,
+                                             "Characters must be lowercase" +
+                                             " letters, numbers,<br>" +
+                                             " underscores or minus signs.");
+            } else {
+                if (!name[i].match(/^[a-z_]$/))
+                    return validationFailure(errorText,
+                                             "First character must be a" +
+                                             " lowercase letter or an" +
+                                             " underscore.");
+            }
+        }
+
+        /* Validate against reserved usernames */
+        for (var i=0;i<reserved.length;i++) {
+            if (name == reserved[i])
+                return validationFailure(errorText, "Username '" +
+                                                    reserved[i] +
+                                                    "' is reserved.")
+        }
+
+        /* Passed */
+        return validationFailureClear(errorText);
     }
     function validateSshPassword(password, passwordRepeat, errorText) {
         var pass = password.text;
