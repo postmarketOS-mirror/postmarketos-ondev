@@ -64,14 +64,23 @@ PartitionJob::exec()
     if (dev == nullptr)
         return JobResult::error( "Missing ONDEV_PARTITION_TARGET" );
 
-
     QList< QPair<const QStringList, const QString> > commands = {
-        {{"cryptsetup", "luksFormat", "--use-urandom", dev}, passwordStdin},
-        {{"cryptsetup", "luksOpen", dev, cryptName}, passwordStdin},
-        {{"mkfs.ext4", "-O", ext4Opts, "-L", ext4Label, cryptDev}, nullptr},
         {{"mkdir", "-p", pathMount}, nullptr},
-        {{"mount", cryptDev, pathMount}, nullptr}
     };
+
+    if ( m_isFdeEnabled ) {
+        commands.append({
+            {{"cryptsetup", "luksFormat", "--use-urandom", dev}, passwordStdin},
+            {{"cryptsetup", "luksOpen", dev, cryptName}, passwordStdin},
+            {{"mkfs.ext4", "-O", ext4Opts, "-L", ext4Label, cryptDev}, nullptr},
+            {{"mount", cryptDev, pathMount}, nullptr}
+        });
+    } else {
+        commands.append({
+            {{"mkfs.ext4", "-O", ext4Opts, "-L", ext4Label, dev}, nullptr},
+            {{"mount", dev, pathMount}, nullptr}
+        });
+    }
 
     foreach( auto command, commands ) {
         const QStringList args = command.first;
