@@ -39,6 +39,7 @@ UsersQmlViewStep::UsersQmlViewStep( QObject* parent )
 void
 UsersQmlViewStep::onLeave()
 {
+    /* TODO: clear jobs (in case user hit back button), add new job */
 }
 
 QString
@@ -77,7 +78,7 @@ UsersQmlViewStep::isAtEnd() const
 Calamares::JobList
 UsersQmlViewStep::jobs() const
 {
-    return Calamares::JobList();
+    return m_jobs;
 }
 
 QObject*

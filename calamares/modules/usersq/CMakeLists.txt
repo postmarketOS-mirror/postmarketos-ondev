@@ -7,8 +7,10 @@ calamares_add_plugin( usersq
     TYPE viewmodule
     EXPORT_MACRO PLUGINDLLEXPORT_PRO
     SOURCES
-        Config.h
         Config.cpp
+        Config.h
+        UsersJob.cpp
+        UsersJob.h
         UsersQmlViewStep.cpp
     RESOURCES
         usersq.qrc
