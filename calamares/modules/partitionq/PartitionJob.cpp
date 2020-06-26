@@ -77,7 +77,6 @@ PartitionJob::exec()
     using namespace CalamaresUtils;
     using namespace std;
 
-    const QString pathRoot = "/";
     const QString pathMount = "/mnt/install";
     const QString ext4Opts = "^metadata_csum,^huge_file";
     const QString ext4Label = "pmOS_root";
@@ -111,6 +110,7 @@ PartitionJob::exec()
     foreach( auto command, commands ) {
         const QStringList args = command.first;
         const QString stdInput = command.second;
+        const QString pathRoot = "/";
 
         ProcessResult res = System::runCommand( System::RunLocation::RunInHost,
                                                 args, pathRoot, stdInput,

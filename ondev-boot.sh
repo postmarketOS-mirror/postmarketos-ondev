@@ -64,6 +64,13 @@ cat << EOF > /root/.Xresources
 Xft.dpi: 200
 EOF
 
+# Write sshd_config, that will be installed as /etc/ssh/sshd_config by
+# the postmarketos-ondev usersq module
+mkdir -p /usr/share/postmarketos-ondev
+cat << EOF > /usr/share/postmarketos-ondev/sshd_config
+FIXME
+EOF
+
 # DEBUG: add user for ssh (password: 'y')
 # yes | adduser user -G wheel || true
 

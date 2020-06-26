@@ -24,7 +24,8 @@ class UsersJob : public Calamares::Job
 {
     Q_OBJECT
 public:
-    UsersJob( bool isFdeEnabled, const QString& password );
+    UsersJob( QString username, QString password, bool isSshEnabled,
+              QString sshUsername, QString sshPassword );
 
     QString prettyName() const override;
     Calamares::JobResult exec() override;
@@ -32,6 +33,9 @@ public:
     Calamares::JobList createJobs();
 
 private:
-    bool m_isFdeEnabled;
+    QString m_username;
     QString m_password;
+    bool m_isSshEnabled;
+    QString m_sshUsername;
+    QString m_sshPassword;
 };

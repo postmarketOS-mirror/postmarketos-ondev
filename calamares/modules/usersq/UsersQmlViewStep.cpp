@@ -19,6 +19,7 @@
  */
 
 #include "UsersQmlViewStep.h"
+#include "UsersJob.h"
 #include <QProcess>
 
 CALAMARES_PLUGIN_FACTORY_DEFINITION( UsersQmlViewStepFactory, registerPlugin< UsersQmlViewStep >(); )
@@ -39,7 +40,13 @@ UsersQmlViewStep::UsersQmlViewStep( QObject* parent )
 void
 UsersQmlViewStep::onLeave()
 {
-    /* TODO: clear jobs (in case user hit back button), add new job */
+    m_jobs.clear();
+    Calamares::Job *j = new UsersJob( m_config->username(),
+                                      m_config->password(),
+                                      m_config->isSshEnabled(),
+                                      m_config->sshUsername(),
+                                      m_config->sshPassword() );
+    m_jobs.append( Calamares::job_ptr( j ) );
 }
 
 QString
