@@ -55,9 +55,6 @@ Item {
         width: Math.min(parent.width / 1.5, 300)
 
         text: qsTr("Install")
-        onClicked: {
-            config.isReady = true;
-            navFinish();
-        }
+        onClicked: navFinish()
     }
 }

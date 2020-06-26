@@ -53,12 +53,10 @@ PartitionQmlViewStep::PartitionQmlViewStep( QObject* parent )
 void
 PartitionQmlViewStep::onLeave()
 {
-    /* Don't add the job if user hit back button */
-    if (m_config->isReady()) {
-        Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
-                                              m_config->password() );
-        m_jobs.append( Calamares::job_ptr( j ) );
-    }
+    m_jobs.clear();
+    Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
+                                          m_config->password() );
+    m_jobs.append( Calamares::job_ptr( j ) );
 }
 
 QString

@@ -29,9 +29,3 @@ Config::setIsFdeEnabled( const bool isFdeEnabled )
 {
     m_isFdeEnabled = isFdeEnabled;
 }
-
-void
-Config::setIsReady( const bool isReady )
-{
-    m_isReady = isReady;
-}
