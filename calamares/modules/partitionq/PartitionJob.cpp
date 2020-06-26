@@ -43,6 +43,33 @@ PartitionJob::prettyName() const
     return "Creating and formatting installation partition";
 }
 
+/* Fill the "global storage", so the following jobs (like unsquashfs) work.
+   The code is similar to modules/partition/jobs/FillGlobalStorageJob.cpp in
+   Calamares. */
+void
+FillGlobalStorage(const QString device, const QString pathMount)
+{
+    using namespace Calamares;
+
+    GlobalStorage* gs = JobQueue::instance()->globalStorage();
+    QVariantList partitions;
+    QVariantMap partition;
+
+    /* See mapForPartition() in FillGlobalStorageJob.cpp */
+    partition[ "device"] = device;
+    partition[ "mountPoint" ] = "/";
+    partition[ "fsName" ] = "ext4";
+    partition[ "fs" ] = "ext4";
+    partition[ "claimed" ] = true;
+
+    /* Not used by the modules we have enabled for postmarketos-ondev, so we
+     * get away with leaving it empty for now. */
+    partition[ "uuid" ] = "";
+
+    partitions << partition;
+    gs->insert( "partitions", partitions);
+    gs->insert( "rootMountPoint", pathMount);
+}
 
 Calamares::JobResult
 PartitionJob::exec()
@@ -97,7 +124,6 @@ PartitionJob::exec()
         }
     }
 
-    /* FIXME: now fill global storage */
-
+    FillGlobalStorage(m_isFdeEnabled ? cryptDev : dev, pathMount);
     return JobResult::ok();
 }
