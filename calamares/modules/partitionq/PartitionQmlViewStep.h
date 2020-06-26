@@ -44,7 +44,6 @@ public:
     bool isAtEnd() const override;
 
     Calamares::JobList jobs() const override;
-    Calamares::JobList createJobs();
 
     void setConfigurationMap( const QVariantMap& configurationMap ) override;
     void onLeave();
@@ -52,6 +51,7 @@ public:
 
 private:
     Config* m_config;
+    QList< Calamares::job_ptr > m_jobs;
 };
 
 CALAMARES_PLUGIN_FACTORY_DECLARATION( PartitionQmlViewStepFactory )

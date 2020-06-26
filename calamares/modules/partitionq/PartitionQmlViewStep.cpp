@@ -74,9 +74,12 @@ FillGlobalStorage(const char *mountpoint)
 void
 PartitionQmlViewStep::onLeave()
 {
-    /* Don't continue if user hit back button */
-    if (m_config->isReady())
-        createJobs();
+    /* Don't add the job if user hit back button */
+    if (m_config->isReady()) {
+        Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
+                                              m_config->password() );
+        m_jobs.append( Calamares::job_ptr( j ) );
+    }
 }
 
 QString
@@ -115,22 +118,11 @@ PartitionQmlViewStep::isAtEnd() const
 Calamares::JobList
 PartitionQmlViewStep::jobs() const
 {
-    return Calamares::JobList();
+    return m_jobs;
 }
 
 QObject*
 PartitionQmlViewStep::getConfig()
 {
     return m_config;
-}
-
-Calamares::JobList
-PartitionQmlViewStep::createJobs()
-{
-    QList< Calamares::job_ptr > list;
-    Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
-                                          m_config->password() );
-    list.append( Calamares::job_ptr( j ) );
-
-    return list;
 }
