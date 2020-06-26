@@ -47,5 +47,48 @@ PartitionJob::prettyName() const
 Calamares::JobResult
 PartitionJob::exec()
 {
-    return Calamares::JobResult::error( tr( "TODO" ) );
+    using namespace Calamares;
+    using namespace CalamaresUtils;
+    using namespace std;
+
+    const QString pathRoot = "/";
+    const QString pathMount = "/mnt/install";
+    const QString ext4Opts = "^metadata_csum,^huge_file";
+    const QString ext4Label = "pmOS_root";
+    const QString cryptName = "calamares_crypt";
+    QString cryptDev = "/dev/mapper/" + cryptName;
+    QString passwordStdin = m_password + "\n";
+
+    /* Partition selection is not implemented yet, let ondev-boot.sh pass it */
+    QString dev = getenv("ONDEV_PARTITION_TARGET");
+    if (dev == nullptr)
+        return JobResult::error( "Missing ONDEV_PARTITION_TARGET" );
+
+
+    QList< QPair<const QStringList, const QString> > commands = {
+        {{"cryptsetup", "luksFormat", "--use-urandom", dev}, passwordStdin},
+        {{"cryptsetup", "luksOpen", dev, cryptName}, passwordStdin},
+        {{"mkfs.ext4", "-O", ext4Opts, "-L", ext4Label, cryptDev}, nullptr},
+        {{"mkdir", "-p", pathMount}, nullptr},
+        {{"mount", cryptDev, pathMount}, nullptr}
+    };
+
+    foreach( auto command, commands ) {
+        const QStringList args = command.first;
+        const QString stdInput = command.second;
+
+        ProcessResult res = System::runCommand( System::RunLocation::RunInHost,
+                                                args, pathRoot, stdInput,
+                                                chrono::seconds( 120 ) );
+        if ( res.getExitCode() ) {
+            return JobResult::error( "Command failed:<br><br>"
+                                     "'" + args.join(" ") + "'<br><br>"
+                                     " with output:<br><br>"
+                                     "'" + res.getOutput() + "'");
+        }
+    }
+
+    /* FIXME: now fill global storage */
+
+    return JobResult::ok();
 }
