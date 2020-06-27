@@ -59,3 +59,21 @@ for service in $services; do
 		rc-update delete "$service" default
 	fi
 done
+
+
+cat << EOF >> /etc/ssh/sshd_config
+
+# This installation of postmarketOS was done with the on-device installer. The
+# user "user" only has a weak, numeric password, which is needed for the lock-
+# screens of Phosh and Plasma Mobile. This weak password is not suitable for
+# logging in via SSH, therefore disable password authentication below.
+# During the installation, we have asked if a dedicated SSH user should be
+# added to the system, with a strong password and freely chosen username.
+# Password authentication is not disabled for this user, however we strongly
+# encourage you to set up an SSH key and disable password authentication for
+# that SSH user as well: https://postmarketos.org/ssh
+Match User user
+    PasswordAuthentication no
+Match all
+
+EOF

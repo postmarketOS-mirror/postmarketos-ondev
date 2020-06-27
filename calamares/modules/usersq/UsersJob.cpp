@@ -53,39 +53,24 @@ UsersJob::exec()
     using namespace std;
 
     const QString rcUpdateVerb = m_isSshEnabled ? "add" : "del";
-    const QString sshConfig = "/usr/share/postmarketos-ondev/sshd_config";
 
-    QList< std::tuple<System::RunLocation, const QStringList, const QString> >
-    commands = {
-        /* Set default user password */
-        { System::RunLocation::RunInTarget,
-          {"passwd", "user"},
-           m_password + "\n" + m_password + "\n" },
-
-        /* Enable or disable sshd */
-        { System::RunLocation::RunInTarget,
-          {"rc-update", rcUpdateVerb, "sshd", "default"}, nullptr },
-
-        /* Copy sshd_config, which disables login for default user */
-        { System::RunLocation::RunInHost,
-          {"cp", sshConfig, "/mnt/install/etc/ssh/sshd_config"}, nullptr },
+    QList< QPair<const QStringList, const QString> > commands = {
+        { {"passwd", "user"}, m_password + "\n" + m_password + "\n" },
+        { {"rc-update", rcUpdateVerb, "sshd", "default"}, nullptr },
     };
 
     if (m_isSshEnabled) {
-        commands.append({ System::RunLocation::RunInTarget,
-                          {"useradd", "-G", "wheel", "-m", m_sshUsername},
-                          nullptr} );
-        commands.append({ System::RunLocation::RunInTarget,
-                          {"passwd", m_sshUsername},
-                          m_sshPassword + "\n" + m_sshPassword + "\n"} );
-        /* FIXME: Only allow this user in sshd_config - run sed? */
+        commands.append({{"useradd", "-G", "wheel", "-m", m_sshUsername},
+                         nullptr} );
+        commands.append({{"passwd", m_sshUsername},
+                         m_sshPassword + "\n" + m_sshPassword + "\n"} );
     }
 
     foreach( auto command, commands ) {
-        auto location = std::get<0>(command);
-        const QStringList args = std::get<1>(command);
-        const QString stdInput = std::get<2>(command);
+        auto location = System::RunLocation::RunInTarget;
         const QString pathRoot = "/";
+        const QStringList args = command.first;
+        const QString stdInput = command.second;
 
         ProcessResult res = System::runCommand( location, args, pathRoot,
                                                 stdInput,
