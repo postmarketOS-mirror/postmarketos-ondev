@@ -46,7 +46,8 @@ Page
         /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
         /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
         /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
-        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]"
+        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]" +
+        /* bottom row */ " ."
 
     Item {
         id: appContainer
