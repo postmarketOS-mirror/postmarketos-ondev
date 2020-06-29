@@ -44,7 +44,7 @@ Page
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 anchors.topMargin: 100
-                width: 300
+                width: 500
                 fillMode: Image.PreserveAspectFit
                 source: "img/postmarketos3d.png"
             }
@@ -52,7 +52,7 @@ Page
                 id: welcomeText
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: logo.bottom
-                anchors.topMargin: 30
+                anchors.topMargin: 150
                 horizontalAlignment: Text.AlignRight
                 text: "You are about to install<br>" +
                       "postmarketOS " +
@@ -63,14 +63,15 @@ Page
                       "<b>" + config.arch + "</b><br>" +
                       "on your " +
                       "<b>" + config.device + "</b><br>"
-                width: Math.min(parent.width / 1.5, 300)
+                width: 500
             }
 
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: welcomeText.bottom
-                anchors.topMargin: 40
-                width: Math.min(parent.width / 1.5, 300)
+                anchors.topMargin: 150
+                width: 500
+		padding: 50
 
                 text: qsTr("Continue")
                 onClicked: ViewManager.next()

@@ -28,7 +28,7 @@ Presentation
         Image {
             id: background
             source: "postmarketos3d.png"
-            width: 300
+            width: 500
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }

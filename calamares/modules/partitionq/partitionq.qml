@@ -62,7 +62,7 @@ Page
             Rectangle {
                 id: mobileNavigation
                 width: parent.width
-                height: 40
+                height: 60
                 color: "#e6e4e1"
                 Layout.fillWidth: true
 

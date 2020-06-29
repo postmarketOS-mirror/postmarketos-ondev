@@ -44,7 +44,7 @@ Item {
               "the device until it is done. Afterwards, it will reboot<br>" +
               "into the installed system."
 
-        width: Math.min(parent.width / 1.5, 300)
+        width: 500
     }
 
     Button {
@@ -52,7 +52,8 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: welcomeText.bottom
         anchors.topMargin: 40
-        width: Math.min(parent.width / 1.5, 300)
+        width: 500
+        padding: 50
 
         text: qsTr("Install")
         onClicked: navFinish()

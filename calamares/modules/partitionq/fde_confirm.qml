@@ -47,7 +47,7 @@ Item {
               "boot your device or access any data on it. Make sure that<br>" +
               "you don't lose this password!"
 
-        width: Math.min(parent.width / 1.5, 300)
+        width: 500
     }
 
     Button {
@@ -55,7 +55,8 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: welcomeText.bottom
         anchors.topMargin: 40
-        width: Math.min(parent.width / 1.5, 300)
+        width: 500
+        padding: 50
 
         text: qsTr("Enable")
         onClicked: {
@@ -68,7 +69,8 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: enableButton.bottom
         anchors.topMargin: 40
-        width: Math.min(parent.width / 1.5, 300)
+        width: 500
+        padding: 50
 
         text: qsTr("Disable")
         onClicked: {
