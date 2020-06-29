@@ -41,8 +41,8 @@ Item {
         wrapMode: Text.WordWrap
 
         text: "Set the numeric password of your user. The lockscreen will" +
-              "ask for this PIN. This is <i>not</i> the PIN of your SIM" +
-              "card. Make sure to remember it."
+              " ask for this PIN. This is <i>not</i> the PIN of your SIM" +
+              " card. Make sure to remember it."
 
         width: 500
     }
