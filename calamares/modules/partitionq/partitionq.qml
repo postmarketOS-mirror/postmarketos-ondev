@@ -193,9 +193,9 @@ Page
 
         if (!check_chars(pass))
             return validationFailure(errorText,
-                                     "The password must only contain\n" +
-                                     "these characters, others cannot be\n" +
-                                     "typed in at boot time:\n" +
+                                     "The password must only contain" +
+                                     " these characters, others cannot be" +
+                                     " typed in at boot time:\n" +
                                      "\n" +
                                      allowed_chars_multiline());
 

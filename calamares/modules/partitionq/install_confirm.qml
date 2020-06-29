@@ -38,11 +38,12 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 30
+        wrapMode: Text.WordWrap
 
-        text: "Once you hit 'install', the installation will begin.<br>" +
-              "It will typically take a few minutes. Do not power off<br>" +
-              "the device until it is done. Afterwards, it will reboot<br>" +
-              "into the installed system."
+        text: "Once you hit 'install', the installation will begin. It will" +
+              " typically take a few minutes. Do not power off the device" +
+              " until it is done. Afterwards, it will reboot into the" +
+              " installed system."
 
         width: 500
     }

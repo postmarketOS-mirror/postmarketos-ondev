@@ -38,11 +38,11 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 30
+        wrapMode: Text.WordWrap
 
-        text: "Set the numeric password of your user.<br>" +
-              "The lockscreen will ask for this PIN.<br>" +
-              "This is <i>not</i> the PIN of your SIM card.<br>" +
-              "Make sure to remember it."
+        text: "Set the numeric password of your user. The lockscreen will" +
+              "ask for this PIN. This is <i>not</i> the PIN of your SIM" +
+              "card. Make sure to remember it."
 
         width: 500
     }
@@ -86,6 +86,7 @@ Item {
         anchors.top: userPinRepeat.bottom
         id: errorText
         visible: false
+        wrapMode: Text.WordWrap
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50

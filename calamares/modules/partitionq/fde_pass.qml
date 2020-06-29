@@ -71,6 +71,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
         width: 500
+        wrapMode: Text.WordWrap
     }
     Button {
         anchors.horizontalCenter: parent.horizontalCenter

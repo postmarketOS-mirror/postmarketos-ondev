@@ -56,6 +56,7 @@ Item {
         id: errorTextUsername
         anchors.top: username.bottom
         visible: false
+        wrapMode: Text.WordWrap
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -94,6 +95,7 @@ Item {
         id: errorTextPassword
         anchors.top: passwordRepeat.bottom
         visible: false
+        wrapMode: Text.WordWrap
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50

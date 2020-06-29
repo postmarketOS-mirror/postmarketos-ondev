@@ -38,14 +38,15 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 30
+        wrapMode: Text.WordWrap
 
-        text: "To protect your data in case your device gets stolen,<br>" +
-              "it is recommended to enable full disk encryption.<br>" +
+        text: "To protect your data in case your device gets stolen," +
+              " it is recommended to enable full disk encryption.<br>" +
               "<br>" +
-              "If you enable full disk encryption, you will be asked for<br>" +
-              "a password. Without this password, it is not possible to<br>" +
-              "boot your device or access any data on it. Make sure that<br>" +
-              "you don't lose this password!"
+              "If you enable full disk encryption, you will be asked for" +
+              " a password. Without this password, it is not possible to" +
+              " boot your device or access any data on it. Make sure that" +
+              " you don't lose this password!"
 
         width: 500
     }

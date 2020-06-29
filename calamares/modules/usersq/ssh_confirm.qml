@@ -42,12 +42,13 @@ Item {
 
         text: "If you don't know what SSH is, choose 'disable'.<br>" +
               "<br>" +
-              "With 'enable', you will be asked for a second username<br>" +
-              "and password. You will be able to login to the SSH server<br>" +
-              "with these credentials via USB (172.16.42.1), Wi-Fi and<br>" +
-              "possibly cellular network. It is recommended to replace<br>" +
-              "the password with an SSH key after the installation. Find<br>" +
-              "more information at: https://postmarketos.org/ssh"
+              "With 'enable', you will be asked for a second username and" +
+              " password. You will be able to login to the SSH server with" +
+              " these credentials via USB (172.16.42.1), Wi-Fi and possibly" +
+              " cellular network. It is recommended to replace the password" +
+              " with an SSH key after the installation.<br>" +
+              "<br>" +
+              "More information: https://postmarketos.org/ssh"
 
         width: 500
     }
