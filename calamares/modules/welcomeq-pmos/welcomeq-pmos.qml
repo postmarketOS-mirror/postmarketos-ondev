@@ -71,7 +71,6 @@ Page
                 anchors.top: welcomeText.bottom
                 anchors.topMargin: 150
                 width: 500
-		padding: 50
 
                 text: qsTr("Continue")
                 onClicked: ViewManager.next()

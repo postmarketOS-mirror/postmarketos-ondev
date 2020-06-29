@@ -56,7 +56,6 @@ Item {
         anchors.top: welcomeText.bottom
         anchors.topMargin: 40
         width: 500
-        padding: 50
 
         text: qsTr("Enable")
         onClicked: {
@@ -70,7 +69,6 @@ Item {
         anchors.top: enableButton.bottom
         anchors.topMargin: 40
         width: 500
-        padding: 50
 
         text: qsTr("Disable")
         onClicked: {
