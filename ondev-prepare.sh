@@ -18,7 +18,7 @@ write_welcomeq_pmos_config() {
 		version="$channel_branch_pmaports"
 	fi
 
-	cat <<- EOF > /etc/calamares/modules/welcomeq-pmos.qml
+	cat <<- EOF > /etc/calamares/modules/welcomeq-pmos.conf
 	---
 	arch: "$deviceinfo_arch"
 	device: "$deviceinfo_name"
