@@ -65,10 +65,22 @@ Page
                       "<b>" + config.device + "</b><br>"
                 width: 500
             }
+            Text {
+                id: wipNote
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: welcomeText.bottom
+                anchors.topMargin: 150
+                wrapMode: Text.WordWrap
+                text: "(This installer is under heavy development. Known" +
+                      " bug: the on-screen keyboard does not always work," +
+                      " try restarting if that happens. This will be" +
+                      " fixed soon.)"
+                width: 500
+            }
 
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: welcomeText.bottom
+                anchors.top: wipNote.bottom
                 anchors.topMargin: 150
                 width: 500
 
