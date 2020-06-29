@@ -95,7 +95,7 @@ Page
                     }
                     Text {
                         id: mobileTitle
-                        text: "<b>Title text</b>"
+                        text: ""
                         color: "#303638"
                     }
                 }
