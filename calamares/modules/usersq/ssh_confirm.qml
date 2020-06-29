@@ -48,7 +48,8 @@ Item {
               " cellular network. It is recommended to replace the password" +
               " with an SSH key after the installation.<br>" +
               "<br>" +
-              "More information: https://postmarketos.org/ssh"
+              "More information:<br>" +
+              "https://postmarketos.org/ssh"
 
         width: 500
     }
