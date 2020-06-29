@@ -38,6 +38,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 30
+        wrapMode: Text.WordWrap
 
         text: "If you don't know what SSH is, choose 'disable'.<br>" +
               "<br>" +
