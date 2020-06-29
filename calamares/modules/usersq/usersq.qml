@@ -82,10 +82,25 @@ Page
 
                         onClicked: navBack()
                     }
-                    Text {
-                        id: mobileTitle
-                        text: ""
-                        color: "#303638"
+                    Rectangle {
+                        implicitHeight: 30
+                        Layout.fillWidth: true
+                        color: "#e6e4e1"
+
+                        Text {
+                            id: mobileTitle
+                            text: ""
+                            color: "#303638"
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+                    Rectangle {
+                        color: "#e6e4e1"
+                        Layout.rightMargin: 6
+                        implicitWidth: 32
+                        implicitHeight: 30
+                        id: filler
                     }
                 }
             }
