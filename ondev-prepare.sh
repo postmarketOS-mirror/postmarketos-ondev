@@ -19,6 +19,7 @@
 : ${ONDEV_CHANNEL_BRANCH_PMAPORTS:="v20.05"}
 : ${ONDEV_CHANNEL_DESCRIPTION:="Some channel description here"}
 : ${ONDEV_CHANNEL_MIRRORDIR_ALPINE:="v3.12"}
+: ${ONDEV_CIPHER:="aes-xts-plain64"}
 : ${ONDEV_PMBOOTSTRAP_VERSION:="0.0.0"}
 : ${ONDEV_UI:="plasma-mobile"}
 
@@ -65,6 +66,13 @@ write_welcomeq_pmos_config() {
 	EOF
 }
 
+write_partitionq_config() {
+	cat <<- EOF > /etc/calamares/modules/partitionq.conf
+	---
+	cipher: "$ONDEV_CIPHER"
+	EOF
+}
+
 # Adjust root partition label in /etc/fstab, so OpenRC can correctly remount it
 # as RW during boot
 fix_fstab() {
@@ -87,5 +95,6 @@ disable_services() {
 set -x
 check_pmbootstrap_version
 write_welcomeq_pmos_config
+write_partitionq_config
 fix_fstab
 disable_services

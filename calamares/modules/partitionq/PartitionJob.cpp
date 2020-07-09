@@ -89,13 +89,22 @@ PartitionJob::exec()
     if (dev == nullptr)
         return JobResult::error( "Missing ONDEV_PARTITION_TARGET" );
 
+    /* Cryptsetup cipher should be read from a config file */
+    QString cipher = getenv("ONDEV_CIPHER");
+    if (cipher == nullptr)
+        return JobResult::error( "Missing ONDEV_CIPHER" );
+
     QList< QPair<const QStringList, const QString> > commands = {
         {{"mkdir", "-p", pathMount}, nullptr},
     };
 
     if ( m_isFdeEnabled ) {
         commands.append({
-            {{"cryptsetup", "luksFormat", "--use-urandom", dev}, passwordStdin},
+            {{"cryptsetup", "luksFormat",
+                "--use-urandom",
+                "--cipher", cipher,
+                dev},
+             passwordStdin},
             {{"cryptsetup", "luksOpen", dev, cryptName}, passwordStdin},
             {{"mkfs.ext4", "-O", ext4Opts, "-L", ext4Label, cryptDev}, nullptr},
             {{"mount", cryptDev, pathMount}, nullptr}
