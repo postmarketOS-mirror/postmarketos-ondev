@@ -73,12 +73,6 @@ write_partitionq_config() {
 	EOF
 }
 
-# Adjust root partition label in /etc/fstab, so OpenRC can correctly remount it
-# as RW during boot
-fix_fstab() {
-	sed -i s/pmOS_root/pmOS_install/ /etc/fstab
-}
-
 # Disable device-specific services, that are not useful during the installation
 # eg25: increases shutdown time by 30s (pinephone modem)
 disable_services() {
@@ -96,5 +90,4 @@ set -x
 check_pmbootstrap_version
 write_welcomeq_pmos_config
 write_partitionq_config
-fix_fstab
 disable_services
