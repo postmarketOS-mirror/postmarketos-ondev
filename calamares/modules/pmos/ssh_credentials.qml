@@ -1,7 +1,5 @@
 /* === This file is part of Calamares - <https://github.com/calamares> ===
  *
- *   Copyright 2020, Adriaan de Groot <groot@kde.org>
- *   Copyright 2020, Anke Boersma <demm@kaosx.us>
  *   Copyright 2020, Oliver Smith <ollieparanoid@postmarketos.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
@@ -36,13 +34,43 @@ Item {
     height: parent.height
 
     TextField {
-        id: password
+        id: username
         anchors.top: parent.top
-        placeholderText: qsTr("Password")
+        placeholderText: qsTr("SSH username")
+        inputMethodHints: Qt.ImhPreferLowercase
+        onTextChanged: validateSshUsername(username, errorTextUsername)
+        text: config.sshUsername
+
+        onActiveFocusChanged: {
+            if(activeFocus) {
+                Qt.inputMethod.update(Qt.ImQueryInput);
+            }
+        }
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 50
+        width: 500
+    }
+
+    Text {
+        id: errorTextUsername
+        anchors.top: username.bottom
+        visible: false
+        wrapMode: Text.WordWrap
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 50
+        width: 500
+    }
+
+    TextField {
+        id: password
+        anchors.top: errorTextUsername.bottom
+        placeholderText: qsTr("SSH password")
         echoMode: TextInput.Password
-        onTextChanged: validatePassword(password, passwordRepeat,
-                                        errorText)
-        text: config.password
+        onTextChanged: validateSshPassword(password, passwordRepeat,
+                                           errorTextPassword)
+        text: config.sshPassword
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -52,11 +80,11 @@ Item {
     TextField {
         id: passwordRepeat
         anchors.top: password.bottom
-        placeholderText: qsTr("Password (repeat)")
+        placeholderText: qsTr("SSH password (repeat)")
         echoMode: TextInput.Password
-        onTextChanged: validatePassword(password, passwordRepeat,
-                                        errorText)
-        text: config.password
+        onTextChanged: validateSshPassword(password, passwordRepeat,
+                                           errorTextPassword)
+        text: config.sshPassword
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -64,26 +92,30 @@ Item {
     }
 
     Text {
-        id: errorText
+        id: errorTextPassword
         anchors.top: passwordRepeat.bottom
         visible: false
+        wrapMode: Text.WordWrap
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
         width: 500
-        wrapMode: Text.WordWrap
     }
     Button {
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: errorText.bottom
+        anchors.top: errorTextPassword.bottom
         anchors.topMargin: 40
         width: 500
 
         text: qsTr("Continue")
         onClicked: {
-            if (validatePassword(password, passwordRepeat, errorText)) {
-                config.password = password.text;
-                navTo("install_confirm");
+            if (validateSshUsername(username, errorTextUsername) &&
+                validateSshPassword(password, passwordRepeat,
+                                    errorTextPassword)) {
+                config.sshUsername = username.text;
+                config.sshPassword = password.text;
+
+                navTo("fde_confirm");
             }
         }
     }

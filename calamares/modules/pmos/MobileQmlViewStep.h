@@ -29,14 +29,12 @@
 #include <QObject>
 #include <QVariantMap>
 
-class PLUGINDLLEXPORT PartitionQmlViewStep : public Calamares::QmlViewStep
+class PLUGINDLLEXPORT MobileQmlViewStep : public Calamares::QmlViewStep
 {
     Q_OBJECT
 
 public:
-    explicit PartitionQmlViewStep( QObject* parent = nullptr );
-
-    QString prettyName() const override;
+    explicit MobileQmlViewStep( QObject* parent = nullptr );
 
     bool isNextEnabled() const override;
     bool isBackEnabled() const override;
@@ -54,6 +52,6 @@ private:
     QList< Calamares::job_ptr > m_jobs;
 };
 
-CALAMARES_PLUGIN_FACTORY_DECLARATION( PartitionQmlViewStepFactory )
+CALAMARES_PLUGIN_FACTORY_DECLARATION( MobileQmlViewStepFactory )
 
 #endif  // PARTITION_QMLVIEWSTEP_H

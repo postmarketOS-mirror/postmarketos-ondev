@@ -1,6 +1,0 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-  <file alias="welcomeq-pmos.qml">welcomeq-pmos.qml</file>
-  <file>img/postmarketos3d.png</file>
-</qresource>
-</RCC>

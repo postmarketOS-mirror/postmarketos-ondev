@@ -28,15 +28,27 @@ import QtQuick.VirtualKeyboard 2.1
 
 Page
 {
-    id: usersq
-
-    property var screen: "default_pin"
+    property var screen: "welcome"
     property var screenPrevious: []
     property var titles: {
+        "welcome": null, /* titlebar disabled */
         "default_pin": "Lockscreen PIN",
         "ssh_confirm": "SSH server",
         "ssh_credentials": "SSH credentials",
+        "fde_confirm": "Full disk encryption",
+        "fde_pass": "Full disk encryption",
+        "install_confirm": "Ready to install",
+        "wait": null
     }
+    /* Only allow characters, that can be typed in with the postmarketOS
+     * initramfs on-screen keyboard (osk-sdl, see src/keyboard.cpp).
+     * FIXME: move to config file */
+     property var allowed_chars:
+        /* layer 0 */ "abcdefghijklmnopqrstuvwxyz" +
+        /* layer 1 */ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        /* layer 2 */ "1234567890" + "@#$%&-_+()" + ",\"':;!?" +
+        /* layer 3 */ "~`|·√πτ÷×¶" + "©®£€¥^°*{}" + "\\/<>=[]" +
+        /* bottom row */ " ."
 
     Item {
         id: appContainer
@@ -120,17 +132,29 @@ Page
         anchors.right: parent.right
     }
 
+    Timer {
+        id: timer
+    }
+
     /* Navigation related */
     function navTo(name, historyPush=true) {
         if (historyPush)
             screenPrevious.push(screen);
         screen = name;
         load.source = name + ".qml";
+        mobileNavigation.visible = (titles[name] !== null);
         mobileTitle.text = "<b>" + titles[name] + "</b>";
         Qt.inputMethod.hide();
     }
     function navFinish() {
-        ViewManager.next();
+        /* Show a waiting screen and wait a second (so it can render), then let
+         * MobileQmlViewStep.cpp::onLeave() create the (encrypted) partition
+         * and mount it. We can't have this as proper job due to ondev#18. */
+        navTo("wait");
+        timer.interval = 1000;
+        timer.repeat = false;
+        timer.triggered.connect(ViewManager.next);
+        timer.start();
     }
     function navBack() {
         if (screenPrevious.length)
@@ -141,7 +165,7 @@ Page
         navTo(screen, false);
     }
 
-    /* Input verification */
+    /* Input validation: show/clear failures */
     function validationFailure(errorText, message="") {
         errorText.text = message;
         errorText.visible = true;
@@ -152,6 +176,8 @@ Page
         errorText.visible = false;
         return true;
     }
+
+    /* Input validation: user-screens (default_pin, ssh_credentials) */
     function validatePin(userPin, userPinRepeat, errorText) {
         var pin = userPin.text;
         var repeat = userPinRepeat.text;
@@ -249,6 +275,51 @@ Page
 
         if (pass == "")
             return validationFailure(errorText);
+
+        if (pass.length < 8)
+            return validationFailure(errorText,
+                                     "Too short: needs at least 8" +
+                                     " characters.");
+
+        if (repeat == "")
+            return validationFailure(errorText);
+
+        if (pass != repeat)
+            return validationFailure(errorText, "Passwords don't match.");
+
+        return validationFailureClear(errorText);
+    }
+
+    /* Input validation: fde_pass */
+    function check_chars(input) {
+        for (var i = 0; i < input.length; i++) {
+            if (allowed_chars.indexOf(input[i]) == -1)
+                return false;
+        }
+        return true;
+    }
+    function allowed_chars_multiline() {
+        /* return allowed_chars split across multiple lines */
+        var step = 20;
+        var ret = "";
+        for (var i = 0; i < allowed_chars.length + step; i += step)
+            ret += allowed_chars.slice(i, i + step) + "\n";
+        return ret.trim();
+    }
+    function validatePassword(password, passwordRepeat, errorText) {
+        var pass = password.text;
+        var repeat = passwordRepeat.text;
+
+        if (pass == "")
+            return validationFailure(errorText);
+
+        if (!check_chars(pass))
+            return validationFailure(errorText,
+                                     "The password must only contain" +
+                                     " these characters, others cannot be" +
+                                     " typed in at boot time:\n" +
+                                     "\n" +
+                                     allowed_chars_multiline());
 
         if (pass.length < 8)
             return validationFailure(errorText,

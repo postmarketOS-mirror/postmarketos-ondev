@@ -77,7 +77,7 @@ Item {
         text: qsTr("Disable")
         onClicked: {
             config.isSshEnabled = false;
-            navFinish();
+            navTo("fde_confirm");
         }
     }
 }

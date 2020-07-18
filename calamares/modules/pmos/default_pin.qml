@@ -33,17 +33,33 @@ Item {
     width: parent.width
     height: parent.height
 
-    TextField {
-        id: username
+    Text {
+        id: description
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        placeholderText: qsTr("SSH username")
-        inputMethodHints: Qt.ImhPreferLowercase
-        onTextChanged: validateSshUsername(username, errorTextUsername)
-        text: config.sshUsername
+        anchors.topMargin: 30
+        wrapMode: Text.WordWrap
 
+        text: "Set the numeric password of your user. The lockscreen will" +
+              " ask for this PIN. This is <i>not</i> the PIN of your SIM" +
+              " card. Make sure to remember it."
+
+        width: 500
+    }
+
+    TextField {
+        id: userPin
+        anchors.top: description.bottom
+        placeholderText: qsTr("PIN")
+        echoMode: TextInput.Password
+        onTextChanged: validatePin(userPin, userPinRepeat, errorText)
+        text: config.userPassword
+
+        /* Let the virtual keyboard change to digits only */
+        inputMethodHints: Qt.ImhDigitsOnly
         onActiveFocusChanged: {
             if(activeFocus) {
-                Qt.inputMethod.update(Qt.ImQueryInput);
+                Qt.inputMethod.update(Qt.ImQueryInput)
             }
         }
 
@@ -52,9 +68,23 @@ Item {
         width: 500
     }
 
+    TextField {
+        id: userPinRepeat
+        anchors.top: userPin.bottom
+        placeholderText: qsTr("PIN (repeat)")
+        inputMethodHints: Qt.ImhDigitsOnly
+        echoMode: TextInput.Password
+        onTextChanged: validatePin(userPin, userPinRepeat, errorText)
+        text: config.userPassword
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 50
+        width: 500
+    }
+
     Text {
-        id: errorTextUsername
-        anchors.top: username.bottom
+        anchors.top: userPinRepeat.bottom
+        id: errorText
         visible: false
         wrapMode: Text.WordWrap
 
@@ -63,59 +93,17 @@ Item {
         width: 500
     }
 
-    TextField {
-        id: password
-        anchors.top: errorTextUsername.bottom
-        placeholderText: qsTr("SSH password")
-        echoMode: TextInput.Password
-        onTextChanged: validateSshPassword(password, passwordRepeat,
-                                           errorTextPassword)
-        text: config.sshPassword
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 50
-        width: 500
-    }
-
-    TextField {
-        id: passwordRepeat
-        anchors.top: password.bottom
-        placeholderText: qsTr("SSH password (repeat)")
-        echoMode: TextInput.Password
-        onTextChanged: validateSshPassword(password, passwordRepeat,
-                                           errorTextPassword)
-        text: config.sshPassword
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 50
-        width: 500
-    }
-
-    Text {
-        id: errorTextPassword
-        anchors.top: passwordRepeat.bottom
-        visible: false
-        wrapMode: Text.WordWrap
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 50
-        width: 500
-    }
     Button {
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: errorTextPassword.bottom
+        anchors.top: errorText.bottom
         anchors.topMargin: 40
         width: 500
 
         text: qsTr("Continue")
         onClicked: {
-            if (validateSshUsername(username, errorTextUsername) &&
-                validateSshPassword(password, passwordRepeat,
-                                    errorTextPassword)) {
-                config.sshUsername = username.text;
-                config.sshPassword = password.text;
-
-                navFinish();
+            if (validatePin(userPin, userPinRepeat, errorText)) {
+                config.userPassword = userPin.text;
+                navTo("ssh_confirm");
             }
         }
     }

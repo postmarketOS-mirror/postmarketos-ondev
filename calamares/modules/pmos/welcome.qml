@@ -43,7 +43,7 @@ Page
                 id: logo
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                anchors.topMargin: 100
+                anchors.topMargin: 50
                 width: 500
                 fillMode: Image.PreserveAspectFit
                 source: "img/postmarketos3d.png"
@@ -65,27 +65,15 @@ Page
                       "<b>" + config.device + "</b><br>"
                 width: 500
             }
-            Text {
-                id: wipNote
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: welcomeText.bottom
-                anchors.topMargin: 150
-                wrapMode: Text.WordWrap
-                text: "(This installer is under heavy development. Known" +
-                      " bug: the on-screen keyboard does not always work," +
-                      " try restarting if that happens. This will be" +
-                      " fixed soon.)"
-                width: 500
-            }
 
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: wipNote.bottom
+                anchors.top: welcomeText.bottom
                 anchors.topMargin: 150
                 width: 500
 
                 text: qsTr("Continue")
-                onClicked: ViewManager.next()
+                onClicked: navTo("default_pin")
             }
         }
     }

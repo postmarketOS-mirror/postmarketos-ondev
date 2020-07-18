@@ -1,5 +1,7 @@
 /* === This file is part of Calamares - <https://github.com/calamares> ===
  *
+ *   Copyright 2020, Adriaan de Groot <groot@kde.org>
+ *   Copyright 2020, Anke Boersma <demm@kaosx.us>
  *   Copyright 2020, Oliver Smith <ollieparanoid@postmarketos.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
@@ -33,33 +35,19 @@ Item {
     width: parent.width
     height: parent.height
 
-    Text {
-        id: description
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 30
-        wrapMode: Text.WordWrap
-
-        text: "Set the numeric password of your user. The lockscreen will" +
-              " ask for this PIN. This is <i>not</i> the PIN of your SIM" +
-              " card. Make sure to remember it."
-
-        width: 500
-    }
-
     TextField {
-        id: userPin
-        anchors.top: description.bottom
-        placeholderText: qsTr("PIN")
+        id: password
+        anchors.top: parent.top
+        placeholderText: qsTr("Password")
+        inputMethodHints: Qt.ImhPreferLowercase
         echoMode: TextInput.Password
-        onTextChanged: validatePin(userPin, userPinRepeat, errorText)
-        text: config.password
+        onTextChanged: validatePassword(password, passwordRepeat,
+                                        errorText)
+        text: config.fdePassword
 
-        /* Let the virtual keyboard change to digits only */
-        inputMethodHints: Qt.ImhDigitsOnly
         onActiveFocusChanged: {
             if(activeFocus) {
-                Qt.inputMethod.update(Qt.ImQueryInput)
+                Qt.inputMethod.update(Qt.ImQueryInput);
             }
         }
 
@@ -69,13 +57,13 @@ Item {
     }
 
     TextField {
-        id: userPinRepeat
-        anchors.top: userPin.bottom
-        placeholderText: qsTr("PIN (repeat)")
-        inputMethodHints: Qt.ImhDigitsOnly
+        id: passwordRepeat
+        anchors.top: password.bottom
+        placeholderText: qsTr("Password (repeat)")
         echoMode: TextInput.Password
-        onTextChanged: validatePin(userPin, userPinRepeat, errorText)
-        text: config.password
+        onTextChanged: validatePassword(password, passwordRepeat,
+                                        errorText)
+        text: config.fdePassword
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
@@ -83,16 +71,15 @@ Item {
     }
 
     Text {
-        anchors.top: userPinRepeat.bottom
         id: errorText
+        anchors.top: passwordRepeat.bottom
         visible: false
-        wrapMode: Text.WordWrap
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 50
         width: 500
+        wrapMode: Text.WordWrap
     }
-
     Button {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: errorText.bottom
@@ -101,9 +88,9 @@ Item {
 
         text: qsTr("Continue")
         onClicked: {
-            if (validatePin(userPin, userPinRepeat, errorText)) {
-                config.password = userPin.text;
-                navTo("ssh_confirm");
+            if (validatePassword(password, passwordRepeat, errorText)) {
+                config.fdePassword = password.text;
+                navTo("install_confirm");
             }
         }
     }

@@ -57,7 +57,7 @@ write_welcomeq_pmos_config() {
 		version="$ONDEV_CHANNEL_BRANCH_PMAPORTS"
 	fi
 
-	cat <<- EOF > /etc/calamares/modules/welcomeq-pmos.conf
+	cat <<- EOF > /etc/calamares/modules/pmos.conf
 	---
 	arch: "$deviceinfo_arch"
 	device: "$deviceinfo_name"
@@ -66,6 +66,8 @@ write_welcomeq_pmos_config() {
 	EOF
 }
 
+# This file isn't parsed by the pmos module. ondev-boot.sh reads it and passes
+# the cipher as environment variable.
 write_partitionq_config() {
 	cat <<- EOF > /etc/calamares/modules/partitionq.conf
 	---

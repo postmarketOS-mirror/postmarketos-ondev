@@ -18,8 +18,9 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PartitionQmlViewStep.h"
+#include "MobileQmlViewStep.h"
 #include "PartitionJob.h"
+#include "UsersJob.h"
 
 #include "GlobalStorage.h"
 #include "JobQueue.h"
@@ -35,71 +36,77 @@
 
 #include <QProcess>
 
-CALAMARES_PLUGIN_FACTORY_DEFINITION( PartitionQmlViewStepFactory, registerPlugin< PartitionQmlViewStep >(); )
+CALAMARES_PLUGIN_FACTORY_DEFINITION( MobileQmlViewStepFactory, registerPlugin< MobileQmlViewStep >(); )
 
 void
-PartitionQmlViewStep::setConfigurationMap( const QVariantMap& configurationMap )
+MobileQmlViewStep::setConfigurationMap( const QVariantMap& configurationMap )
 {
     m_config->setConfigurationMap( configurationMap );
     Calamares::QmlViewStep::setConfigurationMap( configurationMap );
 }
 
-PartitionQmlViewStep::PartitionQmlViewStep( QObject* parent )
+MobileQmlViewStep::MobileQmlViewStep( QObject* parent )
     : Calamares::QmlViewStep( parent )
     , m_config( new Config( this ) )
 {
 }
 
 void
-PartitionQmlViewStep::onLeave()
+MobileQmlViewStep::onLeave()
 {
+    Calamares::Job *partition, *users;
+
+    /* HACK: run partition job now */
+    partition = new PartitionJob( m_config->isFdeEnabled(),
+                                  m_config->fdePassword() );
+    Calamares::JobResult res = partition->exec();
+    if ( !res )
+        cError() << "PARTITION JOB FAILED: " << res.message();
+
+    /* Put users job in queue (should run after unpackfs) */
     m_jobs.clear();
-    Calamares::Job *j = new PartitionJob( m_config->isFdeEnabled(),
-                                          m_config->password() );
-    m_jobs.append( Calamares::job_ptr( j ) );
-}
-
-QString
-PartitionQmlViewStep::prettyName() const
-{
-    return tr( "Partition" );
+    users = new UsersJob( m_config->userPassword(),
+                          m_config->isSshEnabled(),
+                          m_config->sshUsername(),
+                          m_config->sshPassword() );
+    m_jobs.append( Calamares::job_ptr( users ) );
 }
 
 bool
-PartitionQmlViewStep::isNextEnabled() const
+MobileQmlViewStep::isNextEnabled() const
 {
     return false;
 }
 
 bool
-PartitionQmlViewStep::isBackEnabled() const
+MobileQmlViewStep::isBackEnabled() const
 {
     return false;
 }
 
 
 bool
-PartitionQmlViewStep::isAtBeginning() const
+MobileQmlViewStep::isAtBeginning() const
 {
     return true;
 }
 
 
 bool
-PartitionQmlViewStep::isAtEnd() const
+MobileQmlViewStep::isAtEnd() const
 {
     return true;
 }
 
 
 Calamares::JobList
-PartitionQmlViewStep::jobs() const
+MobileQmlViewStep::jobs() const
 {
     return m_jobs;
 }
 
 QObject*
-PartitionQmlViewStep::getConfig()
+MobileQmlViewStep::getConfig()
 {
     return m_config;
 }

@@ -11,17 +11,17 @@ Config::Config( QObject* parent )
 void
 Config::setConfigurationMap( const QVariantMap& configurationMap )
 {
-    /* Not using any config values yet. The Config.cpp/Config.h is convention
-     * for transfering data between QML and C++ code in Calamares, and we use
-     * it to transfer what the user typed in (username, pass etc.) to the
-     * global config, so it can be used later in the installation. */
+    m_arch = configurationMap.value("arch").toString();
+    m_device = configurationMap.value("device").toString();
+    m_userInterface = configurationMap.value("userInterface").toString();
+    m_version = configurationMap.value("version").toString();
 }
 
 void
-Config::setPassword( const QString &password )
+Config::setUserPassword( const QString &userPassword )
 {
-    m_password = password;
-    emit passwordChanged( m_password );
+    m_userPassword = userPassword;
+    emit userPasswordChanged( m_userPassword );
 }
 
 void
@@ -42,4 +42,17 @@ void
 Config::setIsSshEnabled( const bool isSshEnabled )
 {
     m_isSshEnabled = isSshEnabled;
+}
+
+void
+Config::setFdePassword( const QString &fdePassword )
+{
+    m_fdePassword = fdePassword;
+    emit fdePasswordChanged( m_fdePassword );
+}
+
+void
+Config::setIsFdeEnabled( const bool isFdeEnabled )
+{
+    m_isFdeEnabled = isFdeEnabled;
 }
