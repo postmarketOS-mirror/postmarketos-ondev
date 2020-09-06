@@ -84,7 +84,7 @@ Match all
 EOF
 
 # DEBUG: add user for ssh (password: 'y')
-# yes | adduser user -G wheel || true
+yes | adduser user -G wheel || true
 
 # Configure cryptsetup cipher
 # FIXME: properly use config in partitionq, instead of ONDEV_CIPHER and
