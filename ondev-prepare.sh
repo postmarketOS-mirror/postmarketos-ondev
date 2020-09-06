@@ -48,16 +48,16 @@ check_pmbootstrap_version() {
 	exit 1
 }
 
-# Write /etc/calamares/modules/welcomeq-pmos.conf, based on data from
-# deviceinfo and what pmbootstrap passed.
-write_welcomeq_pmos_config() {
+# Write /etc/calamares/modules/mobile.conf, based on data from deviceinfo and
+# what pmbootstrap passed.
+write_calamares_mobile_config() {
 	# Version: "edge", "v20.05", ...
 	version="$ONDEV_CHANNEL"
 	if [ "$ONDEV_CHANNEL" != "edge" ]; then
 		version="$ONDEV_CHANNEL_BRANCH_PMAPORTS"
 	fi
 
-	cat <<- EOF > /etc/calamares/modules/pmos.conf
+	cat <<- EOF > /etc/calamares/modules/mobile.conf
 	---
 	arch: "$deviceinfo_arch"
 	device: "$deviceinfo_name"
@@ -90,6 +90,6 @@ disable_services() {
 
 set -x
 check_pmbootstrap_version
-write_welcomeq_pmos_config
+write_calamares_mobile_config
 write_partitionq_config
 disable_services
