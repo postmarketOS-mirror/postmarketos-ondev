@@ -30,6 +30,8 @@ if [ "$(realpath /dev/disk/by-label/pmOS_install)" != "$part_install" ]; then
 	fi
 fi
 
+. /etc/deviceinfo
+
 # Calamares module "unpackfs" needs loop
 modprobe loop || true
 
@@ -59,9 +61,9 @@ export QT_IM_MODULE="qtvirtualkeyboard"
 export QT_VIRTUALKEYBOARD_STYLE=Plasma
 EOF
 
-# Hardcode 200 DPI (postmarketos-ondev#15: better would be correct device dpi)
+# Guess DPI based on screen height (FIXME: postmarketos#15)
 cat << EOF > /root/.Xresources
-Xft.dpi: 200
+Xft.dpi: $(expr "$deviceinfo_screen_height" "*" 100 / 720)
 EOF
 
 # Write partial sshd_config, that will be appended to /mnt/install/etc/ssh/
