@@ -16,5 +16,7 @@ install:
 		"$(DESTDIR)/usr/bin/ondev-prepare"
 	install -Dm755 ondev-boot.sh \
 		"$(DESTDIR)/usr/bin/ondev-boot"
+	install -Dm755 postmarketos-ondev.initd \
+		"$(DESTDIR)/etc/init.d/postmarketos-ondev"
 
 .PHONY: default install
