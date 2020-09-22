@@ -22,6 +22,7 @@
 : ${ONDEV_CIPHER:="aes-xts-plain64"}
 : ${ONDEV_PMBOOTSTRAP_VERSION:="0.0.0"}
 : ${ONDEV_UI:="plasma-mobile"}
+: ${ONDEV_DISTRO:="postmarketOS"}
 
 # Minimum required pmbootstrap version check
 check_pmbootstrap_version() {
@@ -46,6 +47,18 @@ check_pmbootstrap_version() {
 		echo "ERROR: failed to verify pmbootstrap version"
 	fi
 	exit 1
+}
+
+update_branding() {
+	branding_dir="/usr/share/calamares/branding/default-mobile"
+	branding_desc="$branding_dir/branding.desc"
+	branding_logo="$branding_dir/logo.png"
+	branding_logo_distro="/usr/share/postmarketos-ondev/distro-logo.png"
+	name_default="NextGenMobileLinuxDistro"
+
+	# Update distribution name and logo
+	sed -i "s/$name_default/$ONDEV_DISTRO/g" "$branding_desc"
+	mv "$branding_logo_distro" "$branding_logo"
 }
 
 # Write /etc/calamares/modules/mobile.conf, based on data from deviceinfo and
@@ -90,6 +103,7 @@ disable_services() {
 
 set -x
 check_pmbootstrap_version
+update_branding
 write_calamares_mobile_config
 write_partitionq_config
 disable_services
