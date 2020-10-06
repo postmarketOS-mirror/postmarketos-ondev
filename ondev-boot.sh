@@ -94,4 +94,5 @@ EOF
 ONDEV_CIPHER="$(cat /etc/calamares/modules/partitionq.conf | grep "^cipher:" | cut -d '"' -f 2)"
 echo "export ONDEV_CIPHER='$ONDEV_CIPHER'" >> /root/.profile
 
+ondev-boot-mount
 rc-service lightdm start
