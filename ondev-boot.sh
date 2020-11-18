@@ -35,14 +35,9 @@ fi
 # Calamares module "unpackfs" needs loop
 modprobe loop || true
 
-# Configure lightdm to start i3
-mkdir -p /usr/share/lightdm/lightdm.conf.d
-cat << EOF > /usr/share/lightdm/lightdm.conf.d/00-autologin.conf
-[Seat:*]
-autologin-user=root
-autologin-user-timeout=0
-autologin-session=i3
-EOF
+# Configure tinydm to start i3 as root
+sed -i "s/AUTOLOGIN_UID=10000/AUTOLOGIN_UID=0/" /etc/conf.d/tinydm
+tinydm-set-session -s /usr/share/xsessions/i3.desktop
 
 # Configure i3 to start calamares
 mkdir -p /root/.config/i3
@@ -95,4 +90,4 @@ ONDEV_CIPHER="$(cat /etc/calamares/modules/partitionq.conf | grep "^cipher:" | c
 echo "export ONDEV_CIPHER='$ONDEV_CIPHER'" >> /root/.profile
 
 ondev-boot-mount
-rc-service lightdm start
+rc-service tinydm start
