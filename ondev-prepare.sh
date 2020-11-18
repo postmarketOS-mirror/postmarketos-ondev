@@ -58,7 +58,7 @@ update_branding() {
 
 	# Update distribution name and logo
 	sed -i "s/$name_default/$ONDEV_DISTRO/g" "$branding_desc"
-	mv "$branding_logo_distro" "$branding_logo"
+	cp "$branding_logo_distro" "$branding_logo"
 }
 
 # Write /etc/calamares/modules/mobile.conf, based on data from deviceinfo and
