@@ -60,6 +60,7 @@ write_calamares_mobile_config() {
 
 	cat <<- EOF > /etc/calamares/modules/mobile.conf
 	---
+	osName: "postmarketOS"
 	arch: "$deviceinfo_arch"
 	device: "$deviceinfo_name"
 	userInterface: "$ONDEV_UI"
