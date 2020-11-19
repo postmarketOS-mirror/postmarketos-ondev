@@ -12,8 +12,8 @@ install:
 			"$(DESTDIR)/etc/calamares/$$cfg" || exit 1; \
 	done
 
-	install -Dm644 distro-logo.png \
-		"$(DESTDIR)/usr/share/calamares/distro-logo.png"
+	install -Dm644 logo.png \
+		"$(DESTDIR)/usr/share/calamares/branding/default-mobile/logo.png"
 	install -Dm755 ondev-prepare.sh \
 		"$(DESTDIR)/usr/bin/ondev-prepare"
 	install -Dm755 ondev-boot.sh \
