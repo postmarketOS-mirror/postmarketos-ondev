@@ -89,7 +89,7 @@ write_calamares_mobile_config() {
 	version: "$version"
 
 	cmdLuksFormat: "cryptsetup luksFormat --use-urandom --cipher '$ONDEV_CIPHER'"
-	cmdMkfsRoot: "mkfs.ext4 -L 'pmOS_root'"
+	cmdMkfsRoot: "mkfs.ext4 -O '^metadata_csum,^huge_file' -L 'pmOS_root'"
 
 	cmdSshdEnable: "rc-update add sshd default"
 	cmdSshdDisable: "rc-update del sshd default"
