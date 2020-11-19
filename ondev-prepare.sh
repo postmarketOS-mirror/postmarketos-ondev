@@ -77,11 +77,8 @@ write_calamares_mobile_config() {
 	userInterface: "$ONDEV_UI"
 	version: "$version"
 
-	username: "user"
-	cmdPasswd: "passwd"
 	cmdSshdEnable: "rc-update add sshd default"
 	cmdSshdDisable: "rc-update del sshd default"
-	cmdSshdUseradd: "useradd -G wheel -m"
 	EOF
 }
 
