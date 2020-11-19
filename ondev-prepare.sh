@@ -49,6 +49,28 @@ check_pmbootstrap_version() {
 	exit 1
 }
 
+pretty_ui() {
+	# Translate the UI value from "pmbootstrap config ui", which is the
+	# suffix of the postmarketos-ui-* pkgnames, to the pretty name if
+	# possible.
+	case "$1" in
+		gnome) echo "GNOME" ;;
+		i3wm) echo "i3" ;;
+		kodi) echo "Kodi" ;;
+		mate) echo "MATE" ;;
+		phosh) echo "Phosh" ;;
+		plasma-bigscreen) echo "Plasma Bigscreen" ;;
+		plasma-desktop) echo "Plasma Desktop" ;;
+		plasma-mobile*) echo "Plasma Mobile" ;;
+		shelli) echo "Shelli" ;;
+		sway) echo "Sway" ;;
+		sxmo) echo "Sxmo" ;;
+		weston) echo "Weston" ;;
+		xfce4) echo "XFCE4" ;;
+		*) echo "$1" ;;
+	esac
+    }
+
 # Write /etc/calamares/modules/mobile.conf, based on data from deviceinfo and
 # what pmbootstrap passed.
 write_calamares_mobile_config() {
@@ -63,7 +85,7 @@ write_calamares_mobile_config() {
 	osName: "postmarketOS"
 	arch: "$deviceinfo_arch"
 	device: "$deviceinfo_name"
-	userInterface: "$ONDEV_UI"
+	userInterface: "$(pretty_ui "$ONDEV_UI")"
 	version: "$version"
 
 	cmdLuksFormat: "cryptsetup luksFormat --use-urandom --cipher '$ONDEV_CIPHER'"
