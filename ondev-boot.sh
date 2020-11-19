@@ -61,12 +61,12 @@ Xft.dpi: $(expr "$deviceinfo_screen_height" "*" 100 / 720)
 EOF
 
 # Write partial sshd_config, that will be appended to /mnt/install/etc/ssh/
-# sshd_config by the shellprocess job (see shellprocess.cfg).
+# sshd_config by the shellprocess job (see shellprocess.conf).
 mkdir -p /usr/share/postmarketos-ondev
 cat << EOF > /usr/share/postmarketos-ondev/sshd_config
 
-# This installation of postmarketOS was done with the on-device installer. The
-# user "user" only has a weak, numeric password, which is needed for the lock-
+# This installation was done with the postmarketos-ondev installer. The
+# default user only has a weak, numeric password, which is needed for the lock-
 # screens of Phosh and Plasma Mobile. This weak password is not suitable for
 # logging in via SSH, therefore disable password authentication below.
 # During the installation, we have asked if a dedicated SSH user should be
