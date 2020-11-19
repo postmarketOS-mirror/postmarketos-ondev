@@ -13,7 +13,7 @@ install:
 	done
 
 	install -Dm644 distro-logo.png \
-		"$(DESTDIR)/usr/share/postmarketos-ondev/distro-logo.png"
+		"$(DESTDIR)/usr/share/calamares/distro-logo.png"
 	install -Dm755 ondev-prepare.sh \
 		"$(DESTDIR)/usr/bin/ondev-prepare"
 	install -Dm755 ondev-boot.sh \

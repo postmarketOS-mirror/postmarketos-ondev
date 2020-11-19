@@ -49,18 +49,6 @@ check_pmbootstrap_version() {
 	exit 1
 }
 
-update_branding() {
-	branding_dir="/usr/share/calamares/branding/default-mobile"
-	branding_desc="$branding_dir/branding.desc"
-	branding_logo="$branding_dir/logo.png"
-	branding_logo_distro="/usr/share/postmarketos-ondev/distro-logo.png"
-	name_default="NextGenMobileLinuxDistro"
-
-	# Update distribution name and logo
-	sed -i "s/$name_default/$ONDEV_DISTRO/g" "$branding_desc"
-	cp "$branding_logo_distro" "$branding_logo"
-}
-
 # Write /etc/calamares/modules/mobile.conf, based on data from deviceinfo and
 # what pmbootstrap passed.
 write_calamares_mobile_config() {
@@ -103,6 +91,5 @@ disable_services() {
 
 set -x
 check_pmbootstrap_version
-update_branding
 write_calamares_mobile_config
 disable_services
