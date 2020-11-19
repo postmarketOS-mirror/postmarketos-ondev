@@ -77,17 +77,11 @@ write_calamares_mobile_config() {
 	userInterface: "$ONDEV_UI"
 	version: "$version"
 
+	cmdLuksFormat: "cryptsetup luksFormat --use-urandom --cipher '$ONDEV_CIPHER'"
+	cmdMkfsRoot: "mkfs.ext4 -L 'pmOS_root'"
+
 	cmdSshdEnable: "rc-update add sshd default"
 	cmdSshdDisable: "rc-update del sshd default"
-	EOF
-}
-
-# This file isn't parsed by the pmos module. ondev-boot.sh reads it and passes
-# the cipher as environment variable.
-write_partitionq_config() {
-	cat <<- EOF > /etc/calamares/modules/partitionq.conf
-	---
-	cipher: "$ONDEV_CIPHER"
 	EOF
 }
 
@@ -108,5 +102,4 @@ set -x
 check_pmbootstrap_version
 update_branding
 write_calamares_mobile_config
-write_partitionq_config
 disable_services

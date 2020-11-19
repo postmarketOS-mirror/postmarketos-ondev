@@ -83,12 +83,6 @@ EOF
 # DEBUG: add user for ssh (password: 'y')
 # yes | adduser user -G wheel || true
 
-# Configure cryptsetup cipher
-# FIXME: properly use config in partitionq, instead of ONDEV_CIPHER and
-# ONDEV_PARTITION_TARGET environment variables
-ONDEV_CIPHER="$(cat /etc/calamares/modules/partitionq.conf | grep "^cipher:" | cut -d '"' -f 2)"
-echo "export ONDEV_CIPHER='$ONDEV_CIPHER'" >> /root/.profile
-
 ondev-boot-mount
 rc-service elogind start
 rc-service tinydm start
