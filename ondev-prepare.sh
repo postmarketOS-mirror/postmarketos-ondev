@@ -76,6 +76,10 @@ write_calamares_mobile_config() {
 	device: "$deviceinfo_name"
 	userInterface: "$ONDEV_UI"
 	version: "$version"
+
+	username: "user"
+	cmdSshdEnable: "rc-update add sshd default"
+	cmdSshdDisable: "rc-update del sshd default"
 	EOF
 }
 
