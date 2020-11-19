@@ -45,7 +45,7 @@ cat << EOF > /root/.config/i3/config
 new_window none
 workspace_layout tabbed
 exec unclutter-xfixes --fork --timeout 1
-exec calamares
+exec calamares -D8
 EOF
 
 # Set environment variables
@@ -90,4 +90,8 @@ ONDEV_CIPHER="$(cat /etc/calamares/modules/partitionq.conf | grep "^cipher:" | c
 echo "export ONDEV_CIPHER='$ONDEV_CIPHER'" >> /root/.profile
 
 ondev-boot-mount
+rc-service elogind start
 rc-service tinydm start
+
+sleep 1
+tail -F /root/.cache/tinydm.log
