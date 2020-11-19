@@ -51,7 +51,6 @@ EOF
 # Set environment variables
 cat << EOF > /root/.profile
 # Used by partitionq in calamares
-export ONDEV_PARTITION_TARGET="$part_target"  # used by "partitionq"
 export QT_IM_MODULE="qtvirtualkeyboard"
 export QT_VIRTUALKEYBOARD_STYLE=Plasma
 EOF
@@ -79,6 +78,9 @@ Match User user
     PasswordAuthentication no
 Match all
 EOF
+
+# mobile.conf: set targetDeviceRoot
+sed -i "s#^targetDeviceRoot:.*#targetDeviceRoot: \"$part_target\"#g" /etc/calamares/modules/mobile.conf
 
 # DEBUG: add user for ssh (password: 'y')
 # yes | adduser user -G wheel || true

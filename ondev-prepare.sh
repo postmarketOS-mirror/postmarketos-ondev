@@ -82,6 +82,9 @@ write_calamares_mobile_config() {
 
 	cmdSshdEnable: "rc-update add sshd default"
 	cmdSshdDisable: "rc-update del sshd default"
+
+	# Placeholder to be filled in by ondev-boot.sh
+	targetDeviceRoot: "/dev/unknown"
 	EOF
 }
 
