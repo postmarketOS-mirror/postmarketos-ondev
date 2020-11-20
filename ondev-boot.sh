@@ -17,6 +17,7 @@
 # - p3: install partition (mounted as /)
 part_install="$(df -T / | awk '/^\/dev/ {print $1}')"
 part_target="$(echo "$part_install" | sed 's/3$/2/')"
+part_boot="$(echo "$part_install" | sed 's/3$/1/')"
 
 # Sanity check
 if [ "$(realpath /dev/disk/by-label/pmOS_install)" != "$part_install" ]; then
@@ -50,9 +51,15 @@ EOF
 
 # Set environment variables
 cat << EOF > /root/.profile
-# Used by partitionq in calamares
+# Use mobile keyboard
 export QT_IM_MODULE="qtvirtualkeyboard"
 export QT_VIRTUALKEYBOARD_STYLE=Plasma
+
+# Make path to boot partition available, so it can be used in
+# shellprocess.conf to let foreign distros overwrite the boot partition after
+# successful installation. (For postmarketOS, we'll just keep the boot
+# partition from the installer.)
+export ONDEV_BOOT_PARTITION="$part_boot"
 EOF
 
 # Guess DPI based on screen height (FIXME: postmarketos#15)
