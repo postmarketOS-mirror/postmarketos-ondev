@@ -89,8 +89,28 @@ EOF
 # mobile.conf: set targetDeviceRoot
 sed -i "s#^targetDeviceRoot:.*#targetDeviceRoot: \"$part_target\"#g" /etc/calamares/modules/mobile.conf
 
-# DEBUG: add user for ssh (password: 'y')
-# yes | adduser user -G wheel || true
+# Add debug user
+if [ -e "/no-debug-user" ]; then
+	set +x
+	echo "NOTE: not creating debug user, because /no-debug-user exists"
+	set -x
+else
+	set +x
+	echo "Creating debug user"
+	echo "  username: 'user'"
+	echo "  password: 'y'"
+	echo
+	echo "  Use this for login via serial or SSH over USB (172.16.42.1)"
+	echo "  and debugging the installer. Calamares log is written to"
+	echo "  '/root/.cache/tinydm.log'."
+	echo
+	echo "  This debug user will not be created if /no-debug-user"
+	echo "  exists in the installation OS. Like this:"
+	echo "  'pmbootstrap install --ondev --cp anyfile:/no-debug-user'"
+	echo
+	set -x
+	yes | adduser user -G wheel || true
+fi
 
 ondev-boot-mount
 rc-service elogind start
