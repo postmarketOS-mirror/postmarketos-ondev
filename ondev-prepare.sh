@@ -19,7 +19,7 @@
 : ${ONDEV_CHANNEL_BRANCH_PMAPORTS:="v20.05"}
 : ${ONDEV_CHANNEL_DESCRIPTION:="Some channel description here"}
 : ${ONDEV_CHANNEL_MIRRORDIR_ALPINE:="v3.12"}
-: ${ONDEV_CIPHER:="aes-xts-plain64"}
+: ${ONDEV_CIPHER:=""}
 : ${ONDEV_PMBOOTSTRAP_VERSION:="0.0.0"}
 : ${ONDEV_UI:="plasma-mobile"}
 : ${ONDEV_DISTRO:="postmarketOS"}
@@ -80,6 +80,11 @@ write_calamares_mobile_config() {
 		version="$ONDEV_CHANNEL_BRANCH_PMAPORTS"
 	fi
 
+	cipher_arg=""
+	if [ -n "$ONDEV_CIPHER" ]; then
+		cipher_arg="--cipher '$ONDEV_CIPHER'"
+	fi
+
 	cat <<- EOF > /etc/calamares/modules/mobile.conf
 	---
 	osName: "postmarketOS"
@@ -88,7 +93,7 @@ write_calamares_mobile_config() {
 	userInterface: "$(pretty_ui "$ONDEV_UI")"
 	version: "$version"
 
-	cmdLuksFormat: "cryptsetup luksFormat --use-random --cipher '$ONDEV_CIPHER'"
+	cmdLuksFormat: "cryptsetup luksFormat --use-random $cipher_arg"
 	cmdMkfsRoot: "mkfs.ext4 -O '^metadata_csum,^huge_file' -L 'pmOS_root'"
 
 	cmdSshdEnable: "rc-update add sshd default"
