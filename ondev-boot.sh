@@ -87,7 +87,8 @@ Match all
 EOF
 
 # mobile.conf: set targetDeviceRoot
-sed -i "s#^targetDeviceRoot:.*#targetDeviceRoot: \"$part_target\"#g" /etc/calamares/modules/mobile.conf
+sed -i "s#^targetDeviceRoot:.*#targetDeviceRoot: \"$part_target\"#g" \
+	/etc/calamares/modules/mobile.conf
 
 # Add debug user
 if [ -e "/no-debug-user" ]; then
