@@ -46,6 +46,8 @@ cat << EOF > /root/.config/i3/config
 new_window none
 workspace_layout tabbed
 exec xrdb -merge ~/.Xresources
+exec xset -dpms
+exec xset s off
 exec unclutter-xfixes --fork --timeout 1
 exec calamares -D8
 EOF
