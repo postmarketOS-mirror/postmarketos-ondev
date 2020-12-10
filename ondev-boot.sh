@@ -117,7 +117,6 @@ else
 fi
 
 ondev-boot-mount
-rc-service elogind start
 rc-service tinydm start
 
 sleep 1
