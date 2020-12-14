@@ -101,6 +101,7 @@ write_calamares_mobile_config() {
 
 	# Placeholder to be filled in by ondev-boot.sh
 	targetDeviceRoot: "/dev/unknown"
+	targetDeviceRootInternal: ""
 	EOF
 }
 
