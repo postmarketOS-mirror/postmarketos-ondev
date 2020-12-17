@@ -16,6 +16,8 @@ install:
 		"$(DESTDIR)/usr/share/calamares/branding/default-mobile/logo.png"
 	install -Dm755 ondev-prepare.sh \
 		"$(DESTDIR)/usr/bin/ondev-prepare"
+	install -Dm755 ondev-prepare-internal-storage.sh \
+		"$(DESTDIR)/usr/bin/ondev-prepare-internal-storage"
 	install -Dm755 ondev-boot.sh \
 		"$(DESTDIR)/usr/bin/ondev-boot"
 	install -Dm755 ondev-boot-mount.sh \
