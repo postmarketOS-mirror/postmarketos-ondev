@@ -93,9 +93,14 @@ write_calamares_mobile_config() {
 	userInterface: "$(pretty_ui "$ONDEV_UI")"
 	version: "$version"
 
+	featureFsType: true
+
 	cmdLuksFormat: "cryptsetup luksFormat --use-random $cipher_arg"
-	cmdMkfsRootExt4: "mkfs.ext4 -O '^metadata_csum,^huge_file' -L 'pmOS_root'"
 	cmdInternalStoragePrepare: "ondev-prepare-internal-storage"
+
+	cmdMkfsRootBtrfs: "ondev-mkfs-btrfs"
+	cmdMkfsRootExt4: "mkfs.ext4 -O '^metadata_csum,^huge_file' -L 'pmOS_root'"
+	cmdMkfsRootF2fs: "mkfs.f2fs -l 'pmOS_root'"
 
 	cmdSshdEnable: "rc-update add sshd default"
 	cmdSshdDisable: "rc-update del sshd default"

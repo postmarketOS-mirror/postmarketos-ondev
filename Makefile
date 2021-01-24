@@ -22,6 +22,8 @@ install:
 		"$(DESTDIR)/usr/bin/ondev-boot"
 	install -Dm755 ondev-boot-mount.sh \
 		"$(DESTDIR)/usr/bin/ondev-boot-mount"
+	install -Dm755 ondev-mkfs-btrfs.sh \
+		"$(DESTDIR)/usr/bin/ondev-mkfs-btrfs"
 	install -Dm755 postmarketos-ondev.initd \
 		"$(DESTDIR)/etc/init.d/postmarketos-ondev"
 
