@@ -34,7 +34,7 @@ part_target_internal=""
 if [ -z "$deviceinfo_dev_internal_storage" ]; then
 	echo "NOTE: deviceinfo_dev_internal_storage not defined, not" \
 		"offering to install from external to internal."
-elif [ "$(echo "$part_install" | sed 's/3$//')" \
+elif [ "$(echo "$part_install" | sed -E 's/p?3$//')" \
 		= "$deviceinfo_dev_internal_storage" ]; then
 	echo "NOTE: installer runs from internal storage, not offering to" \
 		"install from external to internal."
