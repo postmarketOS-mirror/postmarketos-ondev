@@ -98,7 +98,8 @@ write_calamares_mobile_config() {
 	cmdInternalStoragePrepare: "ondev-prepare-internal-storage"
 
 	cmdSshdEnable: "rc-update add sshd default"
-	cmdSshdDisable: "rc-update del sshd default"
+	# Don't fail if already disabled (ondev#40)
+	cmdSshdDisable: "rc-update del sshd default || true"
 
 	# Placeholder to be filled in by ondev-boot.sh
 	targetDeviceRoot: "/dev/unknown"
